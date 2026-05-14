@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/marcusviniciusfonsecasilva/Desktop/casa-marco/src/app/layout\":[\"static/media/46bdd75a3ff56824-s.p.woff2\",\"static/media/49eec060ce8bd0da-s.p.woff2\",\"static/media/fa3e259cafa8f47e-s.p.woff2\",\"static/media/4c9affa5bc8f420e-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
