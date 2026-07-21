@@ -1,0 +1,6 @@
+{
+  "/api/pedidos/route": "/api/pedidos",
+  "/_not-found/page": "/_not-found",
+  "/api/cardapio/route": "/api/cardapio",
+  "/page": "/"
+}

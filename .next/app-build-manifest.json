@@ -1,14 +1,40 @@
 {
   "pages": {
-    "/api/cardapio/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/cardapio/route.js"
+    "/_not-found/page": [
+      "static/chunks/webpack-df857094e98ed437.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f84124391a7dac4.js",
+      "static/chunks/main-app-8097d538d0f65cc4.js",
+      "static/chunks/app/_not-found/page-fedcc8701e09dca8.js"
     ],
     "/api/pedidos/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/pedidos/route.js"
+      "static/chunks/webpack-df857094e98ed437.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f84124391a7dac4.js",
+      "static/chunks/main-app-8097d538d0f65cc4.js",
+      "static/chunks/app/api/pedidos/route-9919a6d0450d4d26.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-df857094e98ed437.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f84124391a7dac4.js",
+      "static/chunks/main-app-8097d538d0f65cc4.js",
+      "static/css/f8d423ae3169925b.css",
+      "static/chunks/app/layout-2a393ace82a63cfe.js"
+    ],
+    "/api/cardapio/route": [
+      "static/chunks/webpack-df857094e98ed437.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f84124391a7dac4.js",
+      "static/chunks/main-app-8097d538d0f65cc4.js",
+      "static/chunks/app/api/cardapio/route-9919a6d0450d4d26.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-df857094e98ed437.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f84124391a7dac4.js",
+      "static/chunks/main-app-8097d538d0f65cc4.js",
+      "static/chunks/app/page-0a5bf82b03d7ab24.js"
     ]
   }
 }

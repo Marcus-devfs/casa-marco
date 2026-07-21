@@ -1,4 +1,6 @@
 {
   "/api/pedidos/route": "app/api/pedidos/route.js",
-  "/api/cardapio/route": "app/api/cardapio/route.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/cardapio/route": "app/api/cardapio/route.js",
+  "/page": "app/page.js"
 }
