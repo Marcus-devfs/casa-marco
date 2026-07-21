@@ -36,8 +36,9 @@ export function About() {
               jeito que pizza boa tem que ser.
             </p>
             <p>
-              Não é uma pizzaria. É o vizinho do lado que faz pizza de sexta e sábado, e desceu
-              na sua porta com ela ainda quente.
+              Não é uma pizzaria. É o vizinho que faz pizza artesanal, pré-assa no ponto certo,
+              sela a vácuo e congela — pra você ter em casa sempre que bater a vontade, sem
+              precisar de hora marcada.
             </p>
           </div>
 

@@ -27,7 +27,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: 'Casa Marco · Pizza Napoletana',
   description:
-    'Pizza artesanal de massa longa fermentação, feita no condomínio. Sexta e sábado.',
+    'Pizza artesanal de massa longa fermentação, pré-assada, selada a vácuo e congelada. Sob encomenda, pronta pra assar quando você quiser.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

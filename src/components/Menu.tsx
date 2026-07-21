@@ -15,6 +15,8 @@ interface CardapioItem {
 const fmt = (value: number) =>
   value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
+const hojeISO = () => new Date().toISOString().slice(0, 10)
+
 function WaIcon({ size = 17 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -73,6 +75,7 @@ export function Menu() {
   const [quantidades, setQuantidades] = useState<Record<string, number>>({})
   const [cliente, setCliente] = useState('')
   const [telefone, setTelefone] = useState('')
+  const [dataRetirada, setDataRetirada] = useState('')
   const [observacoes, setObservacoes] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [erroEnvio, setErroEnvio] = useState<string | null>(null)
@@ -93,6 +96,7 @@ export function Menu() {
   const outrasPizzas = cardapio.filter((p) => p.id !== pizzaCasa?.id)
 
   const itensSelecionados = Object.entries(quantidades).filter(([, qtd]) => qtd > 0)
+  const totalItens = itensSelecionados.reduce((acc, [, qtd]) => acc + qtd, 0)
   const totalPedido = itensSelecionados.reduce((acc, [id, qtd]) => {
     const pizza = cardapio.find((p) => p.id === id)
     return acc + (pizza?.precoVenda ?? 0) * qtd
@@ -102,12 +106,16 @@ export function Menu() {
     e.preventDefault()
     setErroEnvio(null)
 
+    if (itensSelecionados.length === 0) {
+      setErroEnvio('Escolha ao menos uma pizza no cardápio acima.')
+      return
+    }
     if (!cliente.trim() || !telefone.trim()) {
       setErroEnvio('Preencha seu nome e telefone.')
       return
     }
-    if (itensSelecionados.length === 0) {
-      setErroEnvio('Escolha ao menos uma pizza no cardápio acima.')
+    if (!dataRetirada) {
+      setErroEnvio('Escolha a data em que quer retirar/receber o pedido.')
       return
     }
 
@@ -120,6 +128,7 @@ export function Menu() {
           cliente,
           telefone,
           observacoes,
+          dataRetirada,
           itens: itensSelecionados.map(([produto, quantidade]) => ({ produto, quantidade })),
         }),
       })
@@ -130,6 +139,7 @@ export function Menu() {
       setQuantidades({})
       setCliente('')
       setTelefone('')
+      setDataRetirada('')
       setObservacoes('')
     } catch (err) {
       setErroEnvio(err instanceof Error ? err.message : 'Não foi possível enviar o pedido')
@@ -143,7 +153,7 @@ export function Menu() {
       <div className="mx-auto max-w-3xl px-6 lg:px-12">
 
         {/* Header wordmark */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <p className="font-sans text-[10px] tracking-[0.4em] uppercase font-semibold text-terracotta-dark mb-4">
             — il menu —
           </p>
@@ -158,10 +168,22 @@ export function Menu() {
           <div className="flex items-center justify-center gap-3 mt-4">
             <span className="h-px w-14 bg-ink/20" />
             <span className="font-sans text-[10px] tracking-[0.28em] uppercase font-medium text-ink/45">
-              longa fermentação · 29 cm · sex &amp; sáb
+              longa fermentação · 29 cm
             </span>
             <span className="h-px w-14 bg-ink/20" />
           </div>
+        </div>
+
+        {/* Badges de produto */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-14">
+          {['❄️ Pré-assada & congelada', '🔒 Selada a vácuo', '📦 Sob encomenda'].map((label) => (
+            <span
+              key={label}
+              className="font-sans text-[10px] tracking-[0.14em] uppercase font-semibold text-terracotta-dark bg-terracotta-dark/8 px-3 py-1.5"
+            >
+              {label}
+            </span>
+          ))}
         </div>
 
         {carregando && (
@@ -235,13 +257,13 @@ export function Menu() {
               ))}
             </div>
 
-            {/* Formulário de pedido pelo site */}
+            {/* Carrinho / pedido pelo site */}
             <div className="bg-cream/60 border border-ink/10 p-6 lg:p-8 mb-14">
               {pedidoEnviado ? (
                 <div className="text-center py-6">
                   <p className="font-display text-2xl text-ink mb-2">Pedido recebido! 🍕</p>
                   <p className="font-sans text-sm text-ink/60">
-                    Te chamo no telefone informado pra confirmar. Até sexta/sábado!
+                    Te chamo no telefone informado pra confirmar a retirada/entrega.
                   </p>
                   <button
                     type="button"
@@ -253,11 +275,18 @@ export function Menu() {
                 </div>
               ) : (
                 <form onSubmit={enviarPedido} className="flex flex-col gap-4">
-                  <p className="font-sans text-[10px] tracking-[0.3em] uppercase font-semibold text-ink/45 text-center">
-                    Fazer pedido pelo site
-                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-lg">🛒</span>
+                    <p className="font-sans text-[10px] tracking-[0.3em] uppercase font-semibold text-ink/45">
+                      Seu carrinho
+                    </p>
+                  </div>
 
-                  {itensSelecionados.length > 0 && (
+                  {itensSelecionados.length === 0 ? (
+                    <p className="text-center font-sans text-xs text-ink/40 py-2">
+                      Escolha as pizzas no cardápio acima pra montar seu pedido.
+                    </p>
+                  ) : (
                     <div className="flex flex-col gap-1.5 border-b border-ink/10 pb-4">
                       {itensSelecionados.map(([id, qtd]) => {
                         const pizza = cardapio.find((p) => p.id === id)
@@ -267,15 +296,25 @@ export function Menu() {
                             <span className="font-sans text-sm text-ink/75">
                               {qtd}× {pizza.nome}
                             </span>
-                            <span className="font-sans text-sm text-ink/60">
-                              {fmt(pizza.precoVenda * qtd)}
-                            </span>
+                            <div className="flex items-center gap-3">
+                              <span className="font-sans text-sm text-ink/60">
+                                {fmt(pizza.precoVenda * qtd)}
+                              </span>
+                              <button
+                                type="button"
+                                aria-label={`Remover ${pizza.nome} do carrinho`}
+                                onClick={() => setQuantidades((prev) => ({ ...prev, [id]: 0 }))}
+                                className="text-ember/60 hover:text-ember transition-colors text-xs"
+                              >
+                                remover
+                              </button>
+                            </div>
                           </div>
                         )
                       })}
                       <div className="flex items-center justify-between gap-4 pt-1.5">
                         <span className="font-sans text-xs uppercase tracking-wide font-semibold text-ink">
-                          Total
+                          Total · {totalItens} pizza{totalItens !== 1 ? 's' : ''}
                         </span>
                         <span className="font-display text-xl text-terracotta-dark">{fmt(totalPedido)}</span>
                       </div>
@@ -296,6 +335,23 @@ export function Menu() {
                       className="border border-ink/20 bg-cream text-ink font-sans text-sm px-3 py-2.5 w-full placeholder:text-ink/35 focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta/30"
                     />
                   </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label className="font-sans text-[10px] tracking-[0.18em] uppercase font-semibold text-ink/45">
+                      Quando você quer retirar/receber?
+                    </label>
+                    <input
+                      type="date"
+                      min={hojeISO()}
+                      value={dataRetirada}
+                      onChange={(e) => setDataRetirada(e.target.value)}
+                      className="border border-ink/20 bg-cream text-ink font-sans text-sm px-3 py-2.5 w-full focus:outline-none focus:border-terracotta focus:ring-1 focus:ring-terracotta/30"
+                    />
+                    <p className="font-sans text-[10px] text-ink/35 mt-0.5">
+                      Trabalhamos por encomenda — combinamos os detalhes por WhatsApp após o pedido.
+                    </p>
+                  </div>
+
                   <textarea
                     value={observacoes}
                     onChange={(e) => setObservacoes(e.target.value)}
@@ -322,8 +378,9 @@ export function Menu() {
         {/* Bottom CTA */}
         <div className="text-center">
           <p className="font-hand text-terracotta-dark text-2xl lg:text-3xl -rotate-1 inline-block mb-7">
-            Sexta &amp; sábado. Avisa até 16h →<br />
-            <span className="text-ink">desço na sua porta às 19h.</span>
+            Prefere combinar no seu ritmo?
+            <br />
+            <span className="text-ink">Também dá pra fechar tudo pelo WhatsApp.</span>
           </p>
           <div>
             <a
@@ -333,7 +390,7 @@ export function Menu() {
               className="inline-flex items-center gap-3 bg-terracotta-dark text-cream font-sans text-xs tracking-[0.14em] uppercase font-bold px-8 py-4 hover:bg-ember transition-colors"
             >
               <WaIcon />
-              Ou prefere pelo WhatsApp?
+              Pedir pelo WhatsApp
             </a>
           </div>
         </div>

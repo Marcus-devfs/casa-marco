@@ -22,6 +22,8 @@ export interface IPedido extends Document<string> {
   // Canal de origem do pedido: criado pela Gestora no admin, ou pelo próprio
   // cliente através do site público.
   origem?: 'admin' | 'site'
+  // Data desejada pelo cliente para retirada/entrega (trabalhamos por encomenda).
+  dataRetirada?: string
 }
 
 const ItemPedidoSchema = new Schema<IItemPedido>(
@@ -48,6 +50,7 @@ const PedidoSchema = new Schema<IPedido>({
   data: { type: String, required: true, default: () => new Date().toISOString() },
   observacoes: { type: String, trim: true },
   origem: { type: String, enum: ['admin', 'site'], default: 'admin' },
+  dataRetirada: { type: String },
 })
 
 withIdTransform(PedidoSchema)

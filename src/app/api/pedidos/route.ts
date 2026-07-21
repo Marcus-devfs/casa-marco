@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json()
-    const { cliente, telefone, observacoes } = body
+    const { cliente, telefone, observacoes, dataRetirada } = body
     const itensInput: ItemInput[] = body.itens
 
     if (!cliente?.trim() || !telefone?.trim()) {
@@ -27,6 +27,16 @@ export async function POST(request: Request) {
 
     if (!Array.isArray(itensInput) || itensInput.length === 0) {
       return NextResponse.json({ error: 'Selecione ao menos uma pizza' }, { status: 400 })
+    }
+
+    if (!dataRetirada) {
+      return NextResponse.json({ error: 'Escolha a data de retirada/entrega' }, { status: 400 })
+    }
+
+    const hoje = new Date()
+    hoje.setHours(0, 0, 0, 0)
+    if (new Date(`${dataRetirada}T00:00:00`) < hoje) {
+      return NextResponse.json({ error: 'A data de retirada não pode ser no passado' }, { status: 400 })
     }
 
     const estoque = await getEstoqueCentral()
@@ -73,6 +83,7 @@ export async function POST(request: Request) {
       itens,
       total,
       observacoes,
+      dataRetirada,
       status: 'pendente',
       origem: 'site',
       data: new Date().toISOString(),

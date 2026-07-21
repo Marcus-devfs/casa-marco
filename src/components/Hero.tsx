@@ -5,7 +5,7 @@ const WA = 'https://wa.me/5511999999999?text=Ol%C3%A1%20Marcus!%20Quero%20pedir%
 const STATS = [
   { n: '48h', t: 'fermentação' },
   { n: '400°', t: 'no forno' },
-  { n: '90 seg', t: 'até assar' },
+  { n: '5-8 min', t: 'pra assar em casa' },
   { n: '29 cm', t: 'pra dividir' },
 ]
 
@@ -35,7 +35,8 @@ export function Hero() {
 
           <p className="font-sans text-[15px] leading-relaxed text-cream/72 max-w-[400px]">
             Massa de 48 horas, ingredientes selecionados, forno PizzaHome P300 a 400°C.
-            Feita por uma pessoa só, sexta e sábado, no condomínio.
+            Pré-assada, selada a vácuo e congelada — pronta pra virar jantar quando você
+            quiser, sob encomenda.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -86,7 +87,7 @@ export function Hero() {
 
             {/* Availability badge */}
             <div className="absolute top-8 right-8 bg-wheat text-soot font-sans text-[9px] tracking-[0.22em] uppercase font-bold px-4 py-2">
-              SEXTA · SÁBADO
+              CONGELADA A VÁCUO
             </div>
           </div>
         </div>
@@ -106,7 +107,7 @@ export function Hero() {
             ))}
           </div>
           <div className="hidden lg:block font-hand text-wheat text-2xl -rotate-2">
-            &ldquo;Sexta tem pizza.&rdquo;
+            &ldquo;Sempre tem pizza no freezer.&rdquo;
           </div>
         </div>
       </div>

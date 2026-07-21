@@ -3,18 +3,18 @@ const WA = 'https://wa.me/5511999999999?text=Ol%C3%A1%20Marcus!%20Quero%20pedir%
 const STEPS = [
   {
     n: '01',
-    title: 'Manda mensagem no WhatsApp',
-    desc: 'Até as 16h da sexta ou do sábado. Fala o que quer e o seu apartamento.',
+    title: 'Monte seu pedido',
+    desc: 'Pelo site (com carrinho e tudo) ou no WhatsApp, do jeito que preferir. Escolha os sabores e as quantidades.',
   },
   {
     n: '02',
-    title: 'Confirmo sua vaga',
-    desc: 'São só 15 pizzas por noite. Te respondo na hora se tem ou não tem.',
+    title: 'Diga quando quer retirar',
+    desc: 'Trabalhamos por encomenda — você escolhe a data de retirada/entrega que funciona pra você, sem pressa.',
   },
   {
     n: '03',
-    title: 'Desço na sua porta',
-    desc: 'Entre 19h e 21h, a pizza chega quente. Sem taxa de entrega — é aqui do lado.',
+    title: 'Chega pronta pra assar',
+    desc: 'Pizza pré-assada, selada a vácuo e congelada. Guarda no freezer e assa em minutos, quando bater a fome.',
   },
 ]
 
@@ -68,7 +68,7 @@ export function HowToOrder() {
             Pedir agora pelo WhatsApp
           </a>
           <p className="font-sans text-cream/42 text-[11px] tracking-[0.2em] uppercase mt-5">
-            Sexta &amp; Sábado · Pedidos até 16h · Entrega 19h–21h
+            Ou monte seu pedido pelo site, com carrinho e data de retirada
           </p>
         </div>
       </div>

@@ -20,14 +20,14 @@ export function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center lg:text-left">
             <div>
               <p className="font-sans text-[10px] tracking-[0.28em] uppercase font-semibold text-wheat mb-3">
-                Horário
+                Encomendas
               </p>
               <div className="font-sans text-[13px] text-cream/65 leading-relaxed">
-                Sexta e Sábado
+                Pizza congelada
                 <br />
-                Pedidos até 16h
+                Você escolhe a data
                 <br />
-                Entrega 19h–21h
+                de retirada/entrega
               </div>
             </div>
             <div>
@@ -66,7 +66,7 @@ export function Footer() {
         {/* Bottom row */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="font-hand text-wheat text-2xl -rotate-1">
-            &ldquo;Sexta tem pizza.&rdquo;
+            &ldquo;Sempre tem pizza no freezer.&rdquo;
           </div>
           <p className="font-sans text-[11px] text-cream/30 tracking-[0.18em] uppercase">
             Casa Marco · Pizza Napoletana · São Paulo

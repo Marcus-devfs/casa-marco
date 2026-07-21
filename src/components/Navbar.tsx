@@ -7,6 +7,7 @@ const WA = 'https://wa.me/5511999999999?text=Ol%C3%A1%20Marcus!%20Quero%20pedir%
 
 const LINKS = [
   ['Cardápio', '#menu'],
+  ['Modo de preparo', '#modo-de-preparo'],
   ['História', '#historia'],
   ['Como pedir', '#pedido'],
 ] as const
