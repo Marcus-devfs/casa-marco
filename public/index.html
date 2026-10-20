@@ -1,0 +1,1786 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Casa Marco · Pizza Napoletana</title>
+<meta name="description" content="Pizza napoletana feita em casa, com fermentação longa e assada na hora em pequenas fornadas, sob encomenda. São Paulo.">
+<meta property="og:title" content="Casa Marco · Pizza Napoletana">
+<meta property="og:description" content="Feita com tempo. Assada na hora. Pequenas fornadas sob encomenda, para os vizinhos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://casa-marco.vercel.app/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://casa-marco.vercel.app/assets/og-casa-marco.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F6EBDD">
+<link rel="canonical" href="https://casa-marco.vercel.app/">
+<link rel="icon" type="image/png" href="assets/logo-casa-marco-160.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Josefin+Sans:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap">
+
+<script>
+/* Decide cedo se haverá WebGL, para não piscar a arte de fallback. */
+(function () {
+  var d = document.documentElement;
+  d.classList.add('js');
+  try {
+    var c = document.createElement('canvas');
+    var g = c.getContext('webgl2') || c.getContext('webgl');
+    d.classList.add(g ? 'gl-pending' : 'no-gl');
+  } catch (e) { d.classList.add('no-gl'); }
+  setTimeout(function () {
+    if (!d.classList.contains('gl-on')) { d.classList.remove('gl-pending'); d.classList.add('no-gl'); }
+  }, 9000);
+})();
+</script>
+
+<style>
+/* Layout: uma coluna editorial à esquerda sobre um palco 3D persistente; cada capítulo fixa um quadro de tela cheia enquanto a cena avança com o scroll. */
+:root {
+  --creme: #F6EBDD;
+  --creme-2: #EEDFCB;
+  --papel: #FBF5EC;
+  --caramelo: #D9A875;
+  --terracota: #8E3E25;
+  --terracota-escura: #73301C;
+  --espresso: #281B16;
+  --tinta: #2D2520;
+  --tinta-suave: #6B5A4D;
+  --linha: rgba(45, 37, 32, .16);
+  --manjericao: #3F6B34;
+
+  --f-display: "Playfair Display", "Playfair", Georgia, "Times New Roman", serif;
+  --f-body: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-label: "Josefin Sans", "Futura", "Century Gothic", system-ui, sans-serif;
+
+  --t-h1: clamp(2.7rem, 5.4vw, 5.4rem);
+  --t-h2: clamp(2.1rem, 3.9vw, 3.6rem);
+  --t-h3: 1.45rem;
+  --t-body: 1.0625rem;
+  --t-small: .9rem;
+  --t-label: .74rem;
+
+  --gx: clamp(16px, 4.2vw, 64px);
+  --backdrop: #F6EBDD;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--creme);
+  color: var(--tinta);
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 70; background: var(--creme);
+}
+img, video, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; line-height: 1.04; letter-spacing: -.012em; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--caramelo); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap {
+  width: 100%; max-width: 1360px; margin-inline: auto;
+  padding-left: max(var(--gx), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gx), env(safe-area-inset-right, 0px));
+}
+.eyebrow {
+  font-family: var(--f-label); font-size: var(--t-label); font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--terracota);
+  display: flex; align-items: center; gap: .7em;
+}
+.eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; opacity: .7; }
+em.accent, h1 em, h2 em { font-style: italic; color: var(--terracota); font-weight: 700; }
+
+/* ---------- botões ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55em;
+  font: 600 1rem/1 var(--f-body); text-decoration: none; cursor: pointer;
+  border-radius: 999px; padding: 1rem 1.45rem; border: 1px solid transparent;
+  transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+}
+.btn-primary { background: var(--terracota); color: var(--creme); }
+.btn-primary:hover { background: var(--terracota-escura); }
+.btn-light { background: var(--creme); color: var(--terracota-escura); }
+.btn-light:hover { background: var(--papel); }
+.btn-quiet { background: transparent; color: var(--tinta); border-color: var(--linha); }
+.btn-quiet:hover { border-color: var(--tinta); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.link-arrow {
+  font: 600 1rem/1.3 var(--f-body); color: var(--terracota); text-decoration: none;
+  display: inline-flex; align-items: center; gap: .5em; padding-bottom: 4px;
+  border-bottom: 1px solid currentColor; width: fit-content;
+}
+.link-arrow span { transition: transform .2s; }
+.link-arrow:hover span { transform: translateX(4px); }
+
+/* ---------- navegação ---------- */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--espresso); color: var(--creme); padding: 10px 16px; border-radius: 10px; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+.nav {
+  position: fixed; z-index: 60; left: 0; right: 0; top: env(safe-area-inset-top, 0px);
+  padding: 12px max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+  pointer-events: none;
+}
+.nav-bar {
+  pointer-events: auto; max-width: 1360px; margin-inline: auto;
+  display: flex; align-items: center; gap: 18px;
+  background: rgba(246, 235, 221, .92); border: 1px solid var(--linha);
+  border-radius: 999px; padding: 6px 6px 6px 8px;
+  box-shadow: 0 6px 24px rgba(40, 27, 22, .06);
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { width: 40px; height: 40px; }
+.brand span { font-family: var(--f-label); font-weight: 600; font-size: .8rem; letter-spacing: .22em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 4px; margin-left: auto; list-style: none; padding: 0; margin-block: 0; }
+.nav-links a { text-decoration: none; font-size: .95rem; padding: 10px 14px; border-radius: 999px; }
+.nav-links a:hover { background: var(--creme-2); }
+.nav .btn { padding: .8rem 1.15rem; font-size: .95rem; }
+@media (max-width: 760px) {
+  .brand span { display: none; }
+  .nav-links .hide-sm { display: none; }
+  .nav-links a { padding: 10px 10px; }
+}
+
+/* ---------- capítulos (trilho lateral) ---------- */
+.rail {
+  position: fixed; z-index: 55; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%;
+  transform: translateY(-50%); display: none;
+}
+.rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: cap; }
+.rail li { counter-increment: cap; }
+.rail a {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none;
+  font-family: var(--f-label); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--tinta-suave); padding: 5px 0;
+}
+.rail a::after { content: counter(cap, decimal-leading-zero); font-variant-numeric: tabular-nums; width: 1.8em; text-align: right; opacity: .55; }
+.rail a .lbl { opacity: 0; transform: translateX(6px); transition: opacity .25s, transform .25s; background: var(--creme); padding: 3px 7px; border-radius: 6px; }
+.rail:hover a .lbl, .rail a.on .lbl, .rail a:focus-visible .lbl { opacity: 1; transform: none; }
+.rail a.on { color: var(--terracota); }
+.rail { transition: opacity .3s; }
+.rail.away { opacity: 0; pointer-events: none; }
+.rail a.on::after { opacity: 1; }
+body.on-dark .rail a { color: rgba(246, 235, 221, .7); }
+body.on-dark .rail a .lbl { background: var(--espresso); }
+body.on-dark .rail a.on { color: var(--caramelo); }
+@media (min-width: 1180px) { .rail { display: block; } }
+
+/* ---------- palco 3D ---------- */
+#backdrop { position: fixed; inset: 0; z-index: 0; background: var(--backdrop); }
+#backdrop::after {
+  content: ""; position: absolute; inset: 0; opacity: .5; mix-blend-mode: multiply;
+  background-image: var(--grain, none); background-size: 180px;
+}
+#stage {
+  position: fixed; left: 0; top: 0; width: 100vw; height: 100lvh; z-index: 1;
+  pointer-events: none; opacity: 0; transition: opacity .2s linear;
+}
+html.no-gl #stage { display: none; }
+#flash {
+  position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 50% 55%, #FFF7EA 0%, #FBEBD4 38%, var(--creme) 75%);
+}
+main { position: relative; z-index: 2; }
+
+.gl-sec { position: relative; }
+.pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.pin-frame { height: 100%; display: flex; align-items: center; }
+.panel { position: relative; max-width: 31rem; display: grid; gap: 18px; }
+.panel h2 { font-size: var(--t-h2); }
+.panel p.body { font-size: 1.12rem; color: var(--tinta-suave); max-width: 28rem; }
+.panel.dark {
+  background: rgba(40, 27, 22, .86); color: var(--creme); border-radius: 22px; padding: 28px 30px 30px;
+}
+.panel.dark .eyebrow { color: var(--caramelo); }
+.panel.dark p.body { color: rgba(246, 235, 221, .82); }
+.panel.dark h2 em { color: var(--caramelo); }
+
+.fallback-art { display: none; }
+html.no-gl .fallback-art {
+  display: block; position: absolute; right: 7%; top: 50%; transform: translateY(-50%);
+  width: min(40vw, 470px);
+}
+
+/* ---------- hero ---------- */
+.hero { height: 175vh; }
+.hero .pin-frame { align-items: stretch; }
+.hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, .42fr);
+  gap: clamp(16px, 3vw, 48px); align-items: center; padding-top: 84px; padding-bottom: 56px;
+}
+.hero-copy { display: grid; gap: 24px; max-width: 34rem; }
+.hero h1 { font-size: var(--t-h1); font-weight: 800; }
+.hero h1 em { display: block; font-weight: 700; }
+.lede { font-size: 1.16rem; color: var(--tinta-suave); max-width: 30rem; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.hero-stage { height: 100%; min-height: 200px; position: relative; }
+html.no-gl .hero-stage .fallback-art { right: auto; left: 50%; transform: translate(-50%, -50%); width: min(100%, 360px); }
+.scroll-cue {
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+  font-family: var(--f-label); font-size: var(--t-label); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--tinta-suave); display: grid; justify-items: center; gap: 10px; text-align: center;
+}
+.scroll-cue i { width: 1px; height: 34px; background: linear-gradient(var(--tinta-suave), transparent); animation: cue 2.2s ease-in-out infinite; transform-origin: top; }
+@keyframes cue { 0%, 100% { transform: scaleY(.35); opacity: .5; } 50% { transform: scaleY(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scroll-cue i { animation: none; } }
+
+/* ---------- filme ---------- */
+.film { margin: 0; display: grid; gap: 10px; justify-self: end; width: 100%; max-width: 214px; }
+.film-box {
+  position: relative; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden;
+  background: var(--creme-2) center / cover no-repeat; border: 1px solid var(--linha);
+  box-shadow: 0 18px 40px rgba(40, 27, 22, .14);
+}
+.film video { width: 100%; height: 100%; object-fit: cover; }
+.film-toggle {
+  position: absolute; right: 8px; bottom: 8px; width: 38px; height: 38px; border-radius: 50%;
+  border: 0; background: rgba(40, 27, 22, .72); color: var(--creme); cursor: pointer;
+  display: grid; place-items: center;
+}
+.film-toggle svg { width: 14px; height: 14px; }
+.film-sound { right: 52px; }
+.film-sound svg { width: 18px; height: 18px; }
+.film-sound .on, .film-sound[aria-pressed="true"] .off { display: none; }
+.film-sound[aria-pressed="true"] .on { display: inline; }
+.film.is-missing .film-sound { display: none; }
+.film figcaption { font-size: .82rem; color: var(--tinta-suave); display: flex; justify-content: space-between; gap: 8px; }
+.film figcaption b { font-family: var(--f-label); font-weight: 600; letter-spacing: .16em; text-transform: uppercase; font-size: .68rem; color: var(--tinta); }
+.film-missing { position: absolute; inset: 0; display: none; place-items: end start; padding: 14px; font-size: .85rem; color: var(--tinta); background: linear-gradient(transparent 55%, rgba(246,235,221,.95)); }
+.film.is-missing .film-missing { display: grid; }
+.film.is-missing video, .film.is-missing .film-toggle { display: none; }
+#film-slot-mobile .film { justify-self: start; max-width: 190px; }
+
+/* ---------- capítulos 3D ---------- */
+#tempo { height: 210vh; }
+#montagem { height: 220vh; }
+#forno { height: 290vh; }
+#mesa { height: 230vh; }
+.dial-readout { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; align-items: end; padding-top: 6px; border-top: 1px solid var(--linha); }
+.dial-readout .num { font-family: var(--f-display); font-weight: 800; font-size: 3.6rem; line-height: .9; color: var(--terracota); font-variant-numeric: tabular-nums; min-width: 2.6ch; }
+.dial-readout .num small { font-size: .45em; font-weight: 700; margin-left: 2px; }
+.dial-readout .cap { font-size: .92rem; color: var(--tinta-suave); line-height: 1.45; padding-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.chips li { font-size: .88rem; padding: 6px 12px; border: 1px solid var(--linha); border-radius: 999px; background: rgba(251, 245, 236, .7); }
+.seal {
+  position: absolute; left: 50%; top: 50%; width: min(42vmin, 400px); aspect-ratio: 1;
+  transform: translate(-50%, -50%) scale(calc(.9 + var(--seal, 0) * .1)); opacity: var(--seal, 0);
+  height: auto; pointer-events: none; filter: drop-shadow(0 20px 40px rgba(40, 27, 22, .18));
+}
+#mesa .panel { opacity: calc(1 - var(--seal, 0)); }
+html.no-gl .seal { opacity: 1; transform: translate(-50%, -50%); left: auto; right: 6%; top: 50%; }
+html.no-gl #mesa .seal { transform: translateY(-50%); }
+
+/* ---------- foto real ---------- */
+.solid { position: relative; background: var(--creme); }
+.real { padding-block: clamp(80px, 13vh, 150px); }
+.real-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: center; }
+.photo-frame {
+  position: relative; margin: 0; aspect-ratio: 4 / 5; max-width: 100%; border-radius: 6px; overflow: hidden;
+  background: var(--creme-2);
+}
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+.photo-frame .art { position: absolute; inset: 9%; }
+.photo-frame figcaption {
+  position: absolute; left: 14px; bottom: 14px; font-size: .78rem; padding: 6px 10px; border-radius: 999px;
+  background: rgba(246, 235, 221, .9); color: var(--tinta-suave);
+}
+.real-copy { display: grid; gap: 24px; }
+.real-copy h2 { font-size: var(--t-h2); }
+.real-copy p.body { color: var(--tinta-suave); font-size: 1.12rem; max-width: 30rem; }
+.specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin: 8px 0 0; border-top: 1px solid var(--linha); }
+.specs div { padding: 16px 12px 16px 0; border-bottom: 1px solid var(--linha); }
+.specs dt { font-family: var(--f-display); font-weight: 800; font-size: 1.9rem; line-height: 1; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.specs dd { margin: 6px 0 0; font-size: .86rem; color: var(--tinta-suave); }
+#film-slot-mobile { display: none; }
+
+/* ---------- Marco ---------- */
+.marco { background: var(--creme-2); padding-block: clamp(80px, 14vh, 160px); }
+.marco-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 110px); align-items: start; }
+.marco-photo { position: sticky; top: 104px; margin: 0; }
+.marco-photo img { width: 100%; aspect-ratio: 3 / 4; max-height: calc(100svh - 170px); object-fit: cover; object-position: 50% 30%; border-radius: 4px; box-shadow: 0 24px 60px rgba(40, 27, 22, .16); }
+.marco-photo.is-missing img { visibility: hidden; }
+.marco-photo.is-missing { background: url('assets/logo-casa-marco.png') center 40% / 46% no-repeat; }
+.marco-photo figcaption { margin-top: 12px; font-size: .86rem; color: var(--tinta-suave); display: flex; justify-content: space-between; gap: 12px; }
+.marco-photo figcaption b { font-family: var(--f-label); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; font-size: .68rem; color: var(--terracota); }
+.marco-copy { display: grid; gap: 28px; max-width: 36rem; padding-top: 12px; }
+.marco-copy h2 { font-size: clamp(2.4rem, 4.6vw, 4.3rem); font-weight: 800; }
+.story p { --read: 1; font-size: 1.2rem; line-height: 1.7; color: color-mix(in srgb, var(--tinta) calc(var(--read) * 100%), #9B8879); transition: color .2s linear; }
+.story { display: grid; gap: 22px; }
+.story p.pull { font-family: var(--f-display); font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.32; font-weight: 600; padding-left: 20px; border-left: 2px solid var(--terracota); }
+.welcome { font-family: var(--f-display); font-style: italic; font-weight: 700; font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--terracota); }
+
+/* ---------- fornada / venda ---------- */
+.fornada { background: var(--terracota); color: var(--creme); padding-block: clamp(72px, 12vh, 130px); }
+.fornada-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(28px, 6vw, 90px); align-items: end; }
+.fornada h2 { font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 800; }
+.fornada .eyebrow { color: var(--caramelo); }
+.fornada p.body { font-size: 1.18rem; color: rgba(246, 235, 221, .86); max-width: 34rem; margin-top: 22px; }
+.fornada .cta-row { margin-top: 30px; }
+.batch {
+  background: var(--creme); color: var(--tinta); border-radius: 22px; padding: 26px 26px 24px;
+  display: grid; gap: 16px;
+}
+.batch h3 { font-size: 1.6rem; }
+.batch dl { margin: 0; display: grid; gap: 0; }
+.batch dl div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid var(--linha); font-size: .96rem; }
+.batch dt { color: var(--tinta-suave); }
+.batch dd { margin: 0; font-weight: 600; text-align: right; }
+.batch .note { font-size: .86rem; color: var(--tinta-suave); }
+
+.menu { padding-block: clamp(72px, 11vh, 120px); }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 40px; margin-bottom: 40px; }
+.section-head h2 { font-size: var(--t-h2); }
+.section-head p { color: var(--tinta-suave); max-width: 30rem; }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.card {
+  background: var(--papel); border: 1px solid var(--linha); border-radius: 20px; overflow: hidden;
+  display: flex; flex-direction: column; min-width: 0;
+}
+.card-art { aspect-ratio: 1; background: var(--creme-2); display: grid; place-items: center; padding: 10%; position: relative; }
+.card-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.card-body { padding: 18px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.card h3 { font-size: var(--t-h3); }
+.card .desc { font-size: .95rem; color: var(--tinta-suave); line-height: 1.5; flex: 1; }
+.card-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--linha); }
+.price { font-weight: 600; font-variant-numeric: tabular-nums; }
+.price.pending { font-weight: 500; color: var(--tinta-suave); font-size: .9rem; }
+.avail { font-size: .8rem; display: inline-flex; align-items: center; gap: 6px; color: var(--manjericao); white-space: nowrap; }
+.avail::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.avail.off { color: var(--tinta-suave); }
+.tag { font-family: var(--f-label); font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; color: var(--terracota); }
+.card.is-special { border-color: var(--terracota); box-shadow: inset 0 0 0 1px var(--terracota); }
+.card.is-special h3 { font-style: italic; color: var(--terracota); }
+.add { margin-top: 8px; width: 100%; padding: .85rem 1rem; }
+.stepper { margin-top: 8px; display: grid; grid-template-columns: 46px 1fr 46px; align-items: center; border: 1px solid var(--tinta); border-radius: 999px; height: 48px; overflow: hidden; }
+.stepper button { height: 100%; border: 0; background: transparent; font-size: 1.3rem; cursor: pointer; color: var(--tinta); }
+.stepper button:hover { background: var(--creme-2); }
+.stepper button[disabled] { opacity: .3; cursor: not-allowed; }
+.stepper output { text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.cap-note { margin-top: 18px; font-size: .9rem; color: var(--tinta-suave); }
+
+.order { background: var(--creme-2); padding-block: clamp(72px, 11vh, 120px); }
+.order-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.order h2 { font-size: var(--t-h2); }
+.order-intro { display: grid; gap: 14px; margin-bottom: 32px; }
+.order-intro p { color: var(--tinta-suave); max-width: 34rem; }
+form { display: grid; gap: 18px; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field.full { grid-column: 1 / -1; }
+.field label, fieldset legend { font-weight: 600; font-size: .95rem; }
+.field .hint { font-size: .82rem; color: var(--tinta-suave); }
+input[type="text"], input[type="tel"], textarea, select {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--tinta); background: var(--papel);
+  border: 1px solid var(--linha); border-radius: 12px; padding: 13px 14px; min-height: 50px;
+}
+textarea { min-height: 96px; resize: vertical; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--terracota); box-shadow: 0 0 0 3px rgba(142, 62, 37, .18); }
+.field.invalid input { border-color: #A23A1E; }
+.err { font-size: .84rem; color: #A23A1E; min-height: 0; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.radios { display: flex; flex-wrap: wrap; gap: 10px; }
+.radio { position: relative; }
+.radio input { position: absolute; opacity: 0; inset: 0; }
+.radio span { display: block; padding: 12px 16px; border: 1px solid var(--linha); border-radius: 12px; background: var(--papel); cursor: pointer; font-size: .96rem; }
+.radio input:checked + span { border-color: var(--terracota); box-shadow: inset 0 0 0 1px var(--terracota); color: var(--terracota-escura); font-weight: 600; }
+.radio input:focus-visible + span { outline: 3px solid var(--caramelo); outline-offset: 2px; }
+.summary {
+  position: sticky; top: 100px; background: var(--papel); border: 1px solid var(--linha); border-radius: 22px;
+  padding: 24px; display: grid; gap: 16px;
+}
+.summary h3 { font-size: 1.45rem; }
+.sum-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.sum-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--linha); }
+.sum-list .nm { font-weight: 600; min-width: 0; }
+.sum-list .pr { font-size: .9rem; color: var(--tinta-suave); text-align: right; font-variant-numeric: tabular-nums; }
+.sum-list .stepper { grid-column: 1 / -1; margin-top: 2px; height: 42px; max-width: 170px; grid-template-columns: 40px 1fr 40px; }
+.sum-empty { font-size: .95rem; color: var(--tinta-suave); padding: 14px 0; border-top: 1px solid var(--linha); }
+.sum-total { display: flex; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid var(--tinta); font-weight: 600; }
+.sum-total .v { text-align: right; font-variant-numeric: tabular-nums; }
+.sum-note { font-size: .84rem; color: var(--tinta-suave); }
+.form-error { font-size: .92rem; color: #A23A1E; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.done { display: grid; gap: 16px; background: var(--papel); border: 1px solid var(--terracota); border-radius: 22px; padding: 26px; }
+.done h3 { font-size: 1.7rem; }
+.done pre {
+  margin: 0; white-space: pre-wrap; font: .92rem/1.55 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  background: var(--creme); border-radius: 14px; padding: 16px; max-height: 320px; overflow: auto;
+}
+.done .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.done .small { font-size: .88rem; color: var(--tinta-suave); }
+
+.cartbar {
+  position: fixed; z-index: 58; left: 50%; bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 140%); transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+  display: flex; align-items: center; gap: 14px; text-decoration: none;
+  background: var(--espresso); color: var(--creme); border-radius: 999px; padding: 10px 10px 10px 20px;
+  box-shadow: 0 14px 34px rgba(40, 27, 22, .3); white-space: nowrap; max-width: calc(100vw - 24px);
+}
+.cartbar.show { transform: translate(-50%, 0); }
+.cartbar b { background: var(--caramelo); color: var(--espresso); border-radius: 999px; padding: 9px 14px; font-weight: 600; }
+
+/* ---------- rodapé ---------- */
+footer { position: relative; background: var(--espresso); color: var(--creme); padding-block: 64px 40px; }
+.foot-grid { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.foot-grid img { width: 104px; height: 104px; }
+footer h3 { font-family: var(--f-label); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; color: var(--caramelo); margin-bottom: 12px; }
+footer p, footer li { font-size: .95rem; color: rgba(246, 235, 221, .82); }
+footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+footer a { color: var(--creme); }
+.copy-btn { font: inherit; font-size: .8rem; margin-left: 8px; background: transparent; color: var(--caramelo); border: 1px solid rgba(217, 168, 117, .5); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+footer details { margin-top: 6px; }
+footer summary { cursor: pointer; color: var(--creme); }
+.foot-bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(246, 235, 221, .14); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: .84rem; color: rgba(246, 235, 221, .6); }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 1100px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 899px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); align-content: start; padding-top: 92px; gap: 0; height: 100%; }
+  .hero-copy { gap: 18px; }
+  .hero .film { display: none; }
+  .hero-stage { min-height: 0; height: 36svh; }
+  .scroll-cue { bottom: 14px; }
+  .pin-frame { align-items: flex-end; padding-bottom: max(18px, env(safe-area-inset-bottom, 0px)); }
+  .panel { max-width: none; width: 100%; background: rgba(246, 235, 221, .95); border-radius: 22px; padding: 20px 20px 22px; gap: 12px; box-shadow: 0 12px 30px rgba(40, 27, 22, .1); }
+  .panel.dark { background: rgba(40, 27, 22, .9); padding: 20px 20px 22px; }
+  .panel h2 { font-size: 1.85rem; }
+  .panel p.body { font-size: 1rem; }
+  .dial-readout .num { font-size: 2.8rem; }
+  html.no-gl .fallback-art { right: auto; left: 50%; top: 16%; transform: translateX(-50%); width: min(70vw, 320px); }
+  html.no-gl .hero-stage .fallback-art { top: 50%; transform: translate(-50%, -50%); width: min(60vw, 240px); }
+  html.no-gl #mesa .seal { left: 50%; right: auto; top: 14%; transform: translateX(-50%); width: 56vw; }
+  .seal { top: 42%; width: 76vw; }
+  .real-grid, .marco-grid, .fornada-grid, .order-grid, .foot-grid { grid-template-columns: minmax(0, 1fr); }
+  #film-slot-mobile { display: block; }
+  .marco-photo { position: relative; top: 0; max-width: 460px; }
+  .summary { position: relative; top: 0; }
+}
+@media (max-width: 560px) {
+  .cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .card { flex-direction: row; }
+  .card-art { width: 116px; flex: none; aspect-ratio: auto; padding: 12px; }
+  .card-body { padding: 14px 14px 14px 12px; }
+  .card h3 { font-size: 1.25rem; }
+  .fields { grid-template-columns: minmax(0, 1fr); }
+  .specs dt { font-size: 1.6rem; }
+  .story p { font-size: 1.08rem; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#sabores">Pular para os sabores</a>
+
+<header class="nav">
+  <div class="nav-bar">
+    <a class="brand" href="#inicio" aria-label="Casa Marco, voltar ao início">
+      <img src="assets/logo-casa-marco-160.png" alt="" width="40" height="40">
+      <span>Casa Marco</span>
+    </a>
+    <ul class="nav-links">
+      <li class="hide-sm"><a href="#tempo">O processo</a></li>
+      <li class="hide-sm"><a href="#marco">Quem faz</a></li>
+      <li><a href="#sabores">Sabores</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#reservar">Reservar</a>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Capítulos da história">
+  <ol>
+    <li><a href="#inicio" data-rail="inicio"><span class="lbl">A massa</span></a></li>
+    <li><a href="#tempo" data-rail="tempo"><span class="lbl">O tempo</span></a></li>
+    <li><a href="#montagem" data-rail="montagem"><span class="lbl">Os ingredientes</span></a></li>
+    <li><a href="#forno" data-rail="forno"><span class="lbl">O forno</span></a></li>
+    <li><a href="#real" data-rail="real"><span class="lbl">A pizza</span></a></li>
+    <li><a href="#marco" data-rail="marco"><span class="lbl">O Marcus</span></a></li>
+    <li><a href="#mesa" data-rail="mesa"><span class="lbl">A mesa</span></a></li>
+    <li><a href="#fornada" data-rail="fornada"><span class="lbl">A fornada</span></a></li>
+  </ol>
+</nav>
+
+<div id="backdrop" aria-hidden="true"></div>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div id="flash" aria-hidden="true"></div>
+
+<main>
+  <!-- Cena 1 · A massa nasce -->
+  <section id="inicio" class="gl-sec hero" data-gl="0" aria-labelledby="hero-title">
+    <div class="pin">
+      <div class="pin-frame">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Pizza napoletana · feita em casa</p>
+            <h1 id="hero-title">Feita com tempo. <em>Assada na hora.</em></h1>
+            <p class="lede">Massas de fermentação longa, forno perto dos 400 °C e fornadas pequenas, sob encomenda, começando pelos vizinhos do condomínio.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#sabores">Ver sabores e reservar</a>
+              <a class="link-arrow" href="#tempo">Conhecer o processo <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+          <div class="hero-stage">
+            <div class="fallback-art" data-art="dough"></div>
+          </div>
+          <div id="film-slot-hero">
+            <figure class="film" id="film">
+              <div class="film-box" style="background-image:url('assets/casa-marco-film-poster.jpg')">
+                <video id="film-video" muted autoplay loop playsinline preload="metadata" poster="assets/casa-marco-film-poster.jpg" aria-label="Filme animado da Casa Marco: da massa ao forno e à mesa">
+                  <source src="assets/casa-marco-film-720.webm" type="video/webm">
+                  <source id="film-src" src="assets/casa-marco-film-720.mp4" type="video/mp4">
+                </video>
+                <button class="film-toggle film-sound" id="film-sound" type="button" aria-label="Ativar o som do filme" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><g class="off" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="9.5" x2="21" y2="14.5"/><line x1="21" y1="9.5" x2="16" y2="14.5"/></g><g class="on" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a7.5 7.5 0 0 1 0 11"/></g></svg>
+                </button>
+                <button class="film-toggle" id="film-toggle" type="button" aria-label="Pausar o filme">
+                  <svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="8.6" y="1" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
+                </button>
+                <p class="film-missing">O filme chega em breve.</p>
+              </div>
+              <figcaption><b>O filme</b><span>24 s · toque no alto-falante para ouvir</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <p class="scroll-cue" aria-hidden="true">Role para acompanhar a massa<i></i></p>
+    </div>
+  </section>
+
+  <!-- Cena 2 · O tempo transforma -->
+  <section id="tempo" class="gl-sec" data-gl="1" aria-labelledby="tempo-title">
+    <div class="pin">
+      <div class="pin-frame wrap">
+        <div class="panel">
+          <p class="eyebrow">Fermentação longa</p>
+          <h2 id="tempo-title">O segredo também está <em>no tempo.</em></h2>
+          <p class="body">Massas de fermentação longa, preparadas com calma e cuidado.</p>
+          <div class="dial-readout">
+            <span class="num" id="hours" aria-hidden="true">48<small>h</small></span>
+            <span class="cap">No mostrador, 48 horas. Na prática, cada lote descansa entre 24 e 72 horas, no tempo que a massa pede.</span>
+          </div>
+        </div>
+        <div class="fallback-art" data-art="dial"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cena 3 · Os ingredientes se encontram -->
+  <section id="montagem" class="gl-sec" data-gl="2" aria-labelledby="montagem-title">
+    <div class="pin">
+      <div class="pin-frame wrap">
+        <div class="panel">
+          <p class="eyebrow">Aberta à mão</p>
+          <h2 id="montagem-title">Poucos ingredientes. <em>Muito cuidado.</em></h2>
+          <p class="body">A massa é aberta à mão e recebe só o essencial. Na Margherita, isso quer dizer molho de tomate, muçarela e manjericão.</p>
+          <ul class="chips" aria-label="Ingredientes da Margherita">
+            <li>Molho de tomate</li><li>Muçarela</li><li>Manjericão</li>
+          </ul>
+        </div>
+        <div class="fallback-art" data-art="margherita"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cena 4 · O forno -->
+  <section id="forno" class="gl-sec" data-gl="3" aria-labelledby="forno-title">
+    <div class="pin">
+      <div class="pin-frame wrap">
+        <div class="panel dark">
+          <p class="eyebrow">PizzaHome P300 · perto dos 400 °C</p>
+          <h2 id="forno-title">Do forno, direto <em>para a sua mesa.</em></h2>
+          <p class="body">No calor do forno, a borda cresce, ganha cor e as marcas que só o fogo alto dá. Depois, segue quentinha até você.</p>
+        </div>
+        <div class="fallback-art" data-art="oven"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cena 5 · A experiência real -->
+  <section id="real" class="solid real" aria-labelledby="real-title">
+    <div class="wrap real-grid">
+      <figure class="photo-frame" id="real-photo">
+        <div class="art" data-art="margherita-baked"></div>
+        <figcaption>Foto da fornada em breve</figcaption>
+      </figure>
+      <div class="real-copy">
+        <p class="eyebrow">Mais de 100 pizzas assadas</p>
+        <h2 id="real-title">Pizza de verdade, <em>feita por gente de verdade.</em></h2>
+        <p class="body">Cada pizza sai com a borda, as bolhas e as marcas de forno de uma fornada pequena, feita em casa.</p>
+        <dl class="specs">
+          <div><dt>100+</dt><dd>pizzas já saíram deste forno</dd></div>
+          <div><dt>24–72 h</dt><dd>de fermentação, conforme o lote</dd></div>
+          <div><dt>~400 °C</dt><dd>no forno PizzaHome P300</dd></div>
+          <div><dt>~10</dt><dd>pizzas por fim de semana</dd></div>
+        </dl>
+        <a class="link-arrow" href="#sabores">Conhecer os sabores <span aria-hidden="true">→</span></a>
+        <div id="film-slot-mobile"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cena 6 · A pessoa por trás da pizza -->
+  <section id="marco" class="solid marco" aria-labelledby="marco-title">
+    <div class="wrap marco-grid">
+      <figure class="marco-photo">
+        <img src="assets/marco-clarice-vicente.jpg" width="960" height="1280" loading="lazy" decoding="async"
+             onerror="this.closest('figure').classList.add('is-missing')"
+             alt="Marcus sorrindo, de boné e óculos, com a filha recém-nascida no colo e o filho abraçado a ele.">
+        <figcaption><b>Em casa</b><span>Marcus, Clarice e Vicente</span></figcaption>
+      </figure>
+      <div class="marco-copy">
+        <p class="eyebrow">Quem faz</p>
+        <h2 id="marco-title">Muito prazer, <em>eu sou o Marcus.</em></h2>
+        <div class="story">
+          <p>Eu sempre amei pizza, e sempre quis fazer a minha. Há algum tempo, comprei um forno que chega a 400 °C, temperatura de forno profissional, para conseguir chegar, em casa, à pizza napolitana que eu tanto queria.</p>
+          <p>Foi assim que a Casa Marco nasceu: dentro de casa, a cada massa preparada, a cada forno aceso e a cada pizza dividida com a família e os amigos.</p>
+          <p>Sou esposo da Dallila, pai da Clarice e do Vicente e discípulo de Jesus. Minha família, minha fé e as pessoas com quem compartilho a vida fazem parte daquilo que sou.</p>
+          <p>Fazer pizza, para mim, é mais do que combinar ingredientes. É dedicar tempo, cuidar dos detalhes e criar momentos que aproximam as pessoas.</p>
+          <p>Foi assim que nasceu a vontade de compartilhar essa paixão com mais gente, começando pelos nossos próprios vizinhos.</p>
+          <p class="pull">Cada fornada é pequena. Cada massa tem seu tempo. E cada pizza sai daqui com o mesmo cuidado que eu gostaria de receber na minha própria casa.</p>
+        </div>
+        <p class="welcome">Seja bem-vindo à Casa Marco.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cena 7 · Compartilhar -->
+  <section id="mesa" class="gl-sec" data-gl="5" aria-labelledby="mesa-title">
+    <div class="pin">
+      <div class="pin-frame wrap">
+        <div class="panel">
+          <p class="eyebrow">Feita pra dividir</p>
+          <h2 id="mesa-title">Porque pizza boa é aquela que <em>aproxima as pessoas.</em></h2>
+        </div>
+      </div>
+      <img class="seal" src="assets/logo-casa-marco.png" width="640" height="640" alt="" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Cena 8 · A próxima fornada -->
+  <section id="fornada" class="solid fornada" aria-labelledby="fornada-title">
+    <div class="wrap fornada-grid">
+      <div>
+        <p class="eyebrow">Reservas por fornada</p>
+        <h2 id="fornada-title">A próxima fornada começa aqui.</h2>
+        <p class="body">Pizzas artesanais, preparadas com tempo e assadas na hora. Feitas em pequenas quantidades, para compartilhar com quem você ama.</p>
+        <div class="cta-row"><a class="btn btn-light" href="#sabores">Ver sabores e reservar</a></div>
+      </div>
+      <aside class="batch" aria-labelledby="batch-title">
+        <h3 id="batch-title">Próxima fornada</h3>
+        <dl id="batch-info"></dl>
+        <p class="note" id="batch-note"></p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="sabores" class="solid menu" aria-labelledby="sabores-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Cardápio</p>
+          <h2 id="sabores-title">Sabores da fornada</h2>
+        </div>
+        <p>Escolha os sabores e as quantidades. No fim, você revisa o pedido e envia para o Marcus confirmar.</p>
+      </div>
+      <div class="cards" id="cards"></div>
+      <p class="cap-note" id="cap-note"></p>
+    </div>
+  </section>
+
+  <section id="reservar" class="solid order" aria-labelledby="reservar-title">
+    <div class="wrap order-grid">
+      <div>
+        <div class="order-intro">
+          <p class="eyebrow">Reserva</p>
+          <h2 id="reservar-title">Seu pedido</h2>
+          <p>Preencha seus dados para o Marcus combinar a entrega. A reserva fica confirmada quando ele responder pelo WhatsApp.</p>
+        </div>
+        <form id="order-form" novalidate>
+          <div class="fields">
+            <div class="field">
+              <label for="f-nome">Nome</label>
+              <input id="f-nome" name="nome" type="text" autocomplete="name" required>
+              <p class="err" id="e-nome"></p>
+            </div>
+            <div class="field">
+              <label for="f-tel">WhatsApp</label>
+              <input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" required>
+              <p class="err" id="e-tel"></p>
+            </div>
+            <div class="field full">
+              <label for="f-apto">Torre e apartamento</label>
+              <input id="f-apto" name="apto" type="text" placeholder="Ex.: Torre 2, apto 54" required>
+              <p class="err" id="e-apto"></p>
+            </div>
+            <fieldset class="field full">
+              <legend>Como você recebe</legend>
+              <div class="radios">
+                <label class="radio"><input type="radio" name="entrega" id="f-entrega-apto" value="Entrega no apartamento" checked><span>Entrega no meu apartamento</span></label>
+                <label class="radio"><input type="radio" name="entrega" id="f-entrega-retira" value="Retirada com o Marcus"><span>Retiro com o Marcus</span></label>
+              </div>
+            </fieldset>
+            <div class="field full" id="slot-field"></div>
+            <div class="field full">
+              <label for="f-obs">Observações <span class="hint">(opcional)</span></label>
+              <textarea id="f-obs" name="obs" placeholder="Algo que o Marcus precisa saber?"></textarea>
+            </div>
+          </div>
+          <div class="hp" aria-hidden="true"><label>Site <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+        <div id="done" hidden></div>
+      </div>
+      <aside class="summary" aria-labelledby="sum-title">
+        <h3 id="sum-title">Resumo</h3>
+        <ul class="sum-list" id="sum-list"></ul>
+        <div class="sum-total"><span id="sum-count">0 pizzas</span><span class="v" id="sum-total">—</span></div>
+        <p class="sum-note" id="sum-note"></p>
+        <button class="btn btn-primary" type="submit" form="order-form" id="submit-btn">Enviar reserva</button>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<a class="cartbar" id="cartbar" href="#reservar" aria-live="polite"><span id="cartbar-text">0 pizzas no pedido</span><b>Revisar</b></a>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <img src="assets/logo-casa-marco.png" alt="Selo Casa Marco, Pizza Napoletana" width="104" height="104" loading="lazy">
+      <div>
+        <h3>Contato</h3>
+        <ul>
+          <li>WhatsApp: <span id="wa-text"></span><button class="copy-btn" type="button" id="copy-wa">Copiar</button></li>
+          <li>Instagram: <a id="ig-link" href="#" target="_blank" rel="noopener"></a></li>
+          <li id="city"></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Como funciona</h3>
+        <p>Fornadas pequenas, sob encomenda, principalmente nos fins de semana. Pizzas assadas na hora, para os vizinhos do condomínio.</p>
+        <details>
+          <summary>Privacidade</summary>
+          <p>Os dados do pedido (nome, WhatsApp e apartamento) servem apenas para combinar e entregar a sua pizza. Eles não são vendidos nem compartilhados.</p>
+        </details>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Casa Marco · Pizza Napoletana</span><span>Feito em casa, com tempo.</span></div>
+  </div>
+</footer>
+
+<script>
+/* ======================================================================
+   CONTEÚDO E DADOS — edite aqui. Nada de preço, data ou estoque inventado:
+   enquanto um valor for null, o site mostra "a confirmar".
+   ====================================================================== */
+var PAINEL = location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://pizza-di-marco.vercel.app';
+var CONFIG = {
+  whatsapp: '5511999999999',            // TODO: número real, só dígitos com DDI
+  whatsappDisplay: '(11) 99999-9999',   // TODO
+  instagram: 'casa.marco',
+  city: 'São Paulo · SP',
+  batch: {
+    date: null,         // ex.: 'Sábado, 8 de novembro'
+    slots: [],          // ex.: ['Sábado · 19h–20h', 'Sábado · 20h–21h']
+    capacity: 10,       // pizzas por fornada
+    reserved: null      // virá do painel; null = desconhecido
+  },
+  flavors: [
+    { id: 'mucarela',   name: 'Muçarela',            desc: 'Molho de tomate e muçarela.',                       price: null, available: true, photo: null, art: 'mucarela' },
+    { id: 'calabresa',  name: 'Calabresa defumada',  desc: 'Molho de tomate, muçarela e calabresa defumada.',   price: null, available: true, photo: null, art: 'calabresa' },
+    { id: 'margherita', name: 'Margherita',          desc: 'Molho de tomate, muçarela e manjericão.',           price: null, available: true, photo: null, art: 'margherita' },
+    { id: 'especial',   name: 'Especial da semana',  desc: 'Gorgonzola, parmesão, muçarela e mel.',             price: null, available: true, photo: null, art: 'especial', special: true }
+  ],
+  photos: { realPizza: null },  // ex.: 'assets/pizza-margherita-forno.jpg'
+  api: {
+    // Endpoints públicos do painel. Se o cardápio não carregar, o site usa os
+    // sabores acima e o pedido segue só pelo WhatsApp.
+    cardapioUrl: PAINEL + '/api/public/cardapio',
+    reservaUrl: PAINEL + '/api/public/reservas',
+    timeoutMs: 6000
+  }
+};
+function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+/* ---------------- arte ilustrada (estilo do filme) ---------------- */
+var INK = '#2D2520';
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function blob(cx, cy, r, R, n, j) {
+  var pts = [], i;
+  for (i = 0; i < n; i++) { var a = i / n * Math.PI * 2, rr = r * (1 - j / 2 + R() * j); pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]); }
+  var mid = function (p, q) { return [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2]; };
+  var m0 = mid(pts[n - 1], pts[0]), d = 'M' + m0[0].toFixed(1) + ',' + m0[1].toFixed(1);
+  for (i = 0; i < n; i++) { var p = pts[i], m = mid(p, pts[(i + 1) % n]); d += ' Q' + p[0].toFixed(1) + ',' + p[1].toFixed(1) + ' ' + m[0].toFixed(1) + ',' + m[1].toFixed(1); }
+  return d + 'Z';
+}
+function leaf(x, y, a, s) {
+  s = s || 1;
+  return '<g transform="translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') rotate(' + a.toFixed(0) + ') scale(' + s + ')">' +
+    '<path d="M0,-15 Q10,-4 0,15 Q-10,-4 0,-15Z" fill="#3F6B34" stroke="' + INK + '" stroke-width="1.2"/>' +
+    '<path d="M0,-11 L0,12" stroke="#2A4A22" stroke-width="1"/></g>';
+}
+function pizzaSVG(kind, seed, baked) {
+  var R = rng(seed || 7), s = '', i, a, r;
+  var white = kind === 'especial';
+  s += '<path d="' + blob(100, 100, 90, R, 30, .045) + '" fill="' + (baked ? '#D9A15C' : '#E4B677') + '" stroke="' + INK + '" stroke-width="2.4"/>';
+  for (i = 0; i < (baked ? 18 : 9); i++) {
+    a = R() * Math.PI * 2; r = 81 + R() * 5;
+    s += '<ellipse cx="' + (100 + Math.cos(a) * r).toFixed(1) + '" cy="' + (100 + Math.sin(a) * r).toFixed(1) + '" rx="' + (2 + R() * (baked ? 4 : 2.5)).toFixed(1) + '" ry="' + (1.5 + R() * 2).toFixed(1) + '" transform="rotate(' + (a * 57.3).toFixed(0) + ' ' + (100 + Math.cos(a) * r).toFixed(1) + ' ' + (100 + Math.sin(a) * r).toFixed(1) + ')" fill="' + (baked ? '#4A2C1B' : '#A8733F') + '" opacity="' + (baked ? .7 : .5) + '"/>';
+  }
+  s += '<path d="' + blob(100, 100, 73, R, 26, .06) + '" fill="' + (white ? '#F1E1C2' : '#B23C24') + '" stroke="' + INK + '" stroke-width="1.3" stroke-opacity=".5"/>';
+  if (kind === 'mucarela' || kind === 'calabresa') {
+    s += '<path d="' + blob(100, 100, 62, R, 22, .14) + '" fill="' + (baked ? '#F3E0B6' : '#F7EEDB') + '"/>';
+    for (i = 0; i < 6; i++) { a = R() * 6.28; r = 20 + R() * 35; s += '<circle cx="' + (100 + Math.cos(a) * r).toFixed(1) + '" cy="' + (100 + Math.sin(a) * r).toFixed(1) + '" r="' + (2 + R() * 2.5).toFixed(1) + '" fill="#B23C24" opacity=".75"/>'; }
+  }
+  if (kind === 'calabresa') {
+    for (i = 0; i < 10; i++) {
+      a = i / 10 * 6.28 + R() * .3; r = i % 2 ? 46 : 24; if (i === 9) r = 0;
+      var cx = 100 + Math.cos(a) * r, cy = 100 + Math.sin(a) * r;
+      s += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="11.5" fill="#A2452B" stroke="#6E2A18" stroke-width="1.4"/>';
+      for (var k = 0; k < 4; k++) s += '<circle cx="' + (cx + (R() - .5) * 13).toFixed(1) + '" cy="' + (cy + (R() - .5) * 13).toFixed(1) + '" r="1.6" fill="#E7AE90"/>';
+    }
+  }
+  if (kind === 'margherita') {
+    var pos = [[100, 100], [134, 86], [80, 64], [64, 112], [112, 138], [140, 122], [96, 70], [76, 140]];
+    for (i = 0; i < pos.length; i++) s += '<path d="' + blob(pos[i][0], pos[i][1], 11 + R() * 5, R, 9, .3) + '" fill="' + (baked ? '#F5E4BE' : '#FAF4E8') + '" stroke="' + INK + '" stroke-width="1" stroke-opacity=".35"/>';
+    s += leaf(118, 104, 30) + leaf(86, 90, 140) + leaf(92, 124, 250) + leaf(126, 64, 80, .9) + leaf(60, 84, 200, .85);
+  }
+  if (kind === 'especial') {
+    for (i = 0; i < 10; i++) {
+      a = R() * 6.28; r = R() * 52; var x = 100 + Math.cos(a) * r, y = 100 + Math.sin(a) * r;
+      s += '<path d="' + blob(x, y, 9 + R() * 5, R, 8, .35) + '" fill="#F8F1E2"/>';
+      if (i % 2 === 0) for (var g = 0; g < 5; g++) s += '<circle cx="' + (x + (R() - .5) * 12).toFixed(1) + '" cy="' + (y + (R() - .5) * 12).toFixed(1) + '" r="1.3" fill="#6E7F86"/>';
+    }
+    for (i = 0; i < 14; i++) { a = R() * 6.28; r = R() * 58; var px = 100 + Math.cos(a) * r, py = 100 + Math.sin(a) * r; s += '<path d="M' + px.toFixed(1) + ',' + py.toFixed(1) + ' l4,-2 l2,4 l-5,1z" fill="#E9D49C"/>'; }
+    s += '<path d="M48,92 C70,70 84,118 104,96 S136,74 152,104" fill="none" stroke="#D99A2B" stroke-width="3.4" stroke-linecap="round" opacity=".9"/>';
+    s += '<path d="M60,126 C82,110 98,140 120,122 S144,118 146,132" fill="none" stroke="#D99A2B" stroke-width="2.6" stroke-linecap="round" opacity=".8"/>';
+  }
+  return '<svg viewBox="0 0 200 200" role="img" aria-hidden="true">' + s + '</svg>';
+}
+function artSVG(kind) {
+  if (kind === 'dough') return '<svg viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="150" rx="66" ry="9" fill="' + INK + '" opacity=".12"/><path d="M38,146 C30,96 66,60 100,60 C134,60 170,96 162,146 Z" fill="#EAD3AA" stroke="' + INK + '" stroke-width="2.4"/><ellipse cx="78" cy="88" rx="14" ry="8" fill="#FFF7E6" opacity=".7" transform="rotate(-25 78 88)"/></svg>';
+  if (kind === 'dial') {
+    var t = '', i; for (i = 0; i < 24; i++) { var a = i / 24 * 6.283 - 1.5708, r1 = 88, r2 = i % 8 === 0 ? 76 : 82; t += '<line x1="' + (100 + Math.cos(a) * r1).toFixed(1) + '" y1="' + (100 + Math.sin(a) * r1).toFixed(1) + '" x2="' + (100 + Math.cos(a) * r2).toFixed(1) + '" y2="' + (100 + Math.sin(a) * r2).toFixed(1) + '" stroke="' + INK + '" stroke-width="1.6"/>'; }
+    return '<svg viewBox="0 0 200 200" aria-hidden="true">' + t + '<circle cx="100" cy="100" r="68" fill="none" stroke="' + INK + '" stroke-opacity=".18" stroke-width="5"/><path d="M100,32 A68,68 0 1 1 41.1,134" fill="none" stroke="#8E3E25" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="104" r="44" fill="#EAD3AA" stroke="' + INK + '" stroke-width="2.2"/></svg>';
+  }
+  if (kind === 'oven') return '<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="22" y="128" width="156" height="46" rx="4" fill="#D9A875" stroke="' + INK + '" stroke-width="2.4"/><path d="M30,130 C30,60 170,60 170,130 Z" fill="#8E3E25" stroke="' + INK + '" stroke-width="2.4"/><rect x="92" y="52" width="16" height="22" fill="' + INK + '"/><path d="M70,130 L70,112 A30,26 0 0 1 130,112 L130,130 Z" fill="#281B16"/><path d="M78,130 C84,116 96,122 100,112 C104,122 118,116 122,130Z" fill="#F08A3C" opacity=".9"/></svg>';
+  if (kind === 'margherita-baked') return pizzaSVG('margherita', 11, true);
+  return pizzaSVG(kind, 7, false);
+}
+document.querySelectorAll('[data-art]').forEach(function (el) { el.innerHTML = artSVG(el.getAttribute('data-art')); });
+
+/* grão de papel para o fundo */
+(function () {
+  try {
+    var c = document.createElement('canvas'); c.width = c.height = 180; var x = c.getContext('2d'), d = x.createImageData(180, 180);
+    for (var i = 0; i < d.data.length; i += 4) { var v = 200 + Math.random() * 55; d.data[i] = v; d.data[i + 1] = v * .97; d.data[i + 2] = v * .92; d.data[i + 3] = 255; }
+    x.putImageData(d, 0, 0); document.documentElement.style.setProperty('--grain', 'url(' + c.toDataURL('image/png') + ')');
+  } catch (e) {}
+})();
+
+/* ---------------- foto real (cena 5) ---------------- */
+if (CONFIG.photos.realPizza) {
+  document.getElementById('real-photo').innerHTML = '<img src="' + CONFIG.photos.realPizza + '" alt="Pizza da Casa Marco recém-saída do forno" loading="lazy" decoding="async">';
+}
+
+/* ---------------- contato ---------------- */
+document.getElementById('wa-text').textContent = CONFIG.whatsappDisplay;
+var ig = document.getElementById('ig-link'); ig.textContent = '@' + CONFIG.instagram; ig.href = 'https://instagram.com/' + CONFIG.instagram;
+document.getElementById('city').textContent = CONFIG.city;
+function copyText(text, btn) {
+  var ok = function () { var o = btn.textContent; btn.textContent = 'Copiado'; setTimeout(function () { btn.textContent = o; }, 1600); };
+  try { navigator.clipboard.writeText(text).then(ok, function () { selectFallback(text); }); } catch (e) { selectFallback(text); }
+}
+function selectFallback(text) { var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (e) {} t.remove(); }
+document.getElementById('copy-wa').addEventListener('click', function () { copyText(CONFIG.whatsappDisplay, this); });
+
+/* ---------------- fornada ---------------- */
+var B, remaining;
+function renderBatch() {
+  B = CONFIG.batch;
+  remaining = B.open === false ? 0 : (B.reserved == null) ? B.capacity : Math.max(0, B.capacity - B.reserved);
+  var rows = [
+    ['Data', esc(B.date) || 'A definir'],
+    ['Tamanho da fornada', 'Cerca de ' + B.capacity + ' pizzas'],
+    ['Vagas', B.open === false ? 'Fornada fechada' : B.reserved == null ? 'Confirmadas pelo Marcus' : (remaining ? remaining + ' disponíveis' : 'Esgotada')],
+    ['Entrega', 'No condomínio']
+  ];
+  document.getElementById('batch-info').innerHTML = rows.map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('');
+  document.getElementById('batch-note').textContent = B.date
+    ? 'Os horários aparecem na reserva. A confirmação chega pelo WhatsApp.'
+    : 'A data da próxima fornada ainda vai ser anunciada. Você já pode deixar seu pedido, e o Marcus confirma tudo pelo WhatsApp.';
+  var slot = document.getElementById('slot-field');
+  if (B.slots && B.slots.length) {
+    slot.innerHTML = '<label for="f-slot">Horário</label><select id="f-slot" name="slot">' + B.slots.map(function (s) { return '<option>' + esc(s) + '</option>'; }).join('') + '</select>';
+  } else {
+    slot.innerHTML = '<label for="f-slot">Preferência de dia e horário <span class="hint">(opcional)</span></label><input id="f-slot" name="slot" type="text" placeholder="Ex.: sábado à noite">';
+  }
+  document.getElementById('cap-note').textContent = 'Cada fornada tem cerca de ' + B.capacity + ' pizzas, então os pedidos são limitados. Quando a fornada enche, a próxima abre logo depois.';
+}
+renderBatch();
+
+/* ---------------- cardápio e pedido ---------------- */
+var BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+var cart = {};
+function syncCart() {
+  var next = {}; CONFIG.flavors.forEach(function (f) { next[f.id] = Math.max(0, cart[f.id] || 0); }); cart = next;
+}
+syncCart();
+function total() { var n = 0; for (var k in cart) n += cart[k]; return n; }
+function priceLabel(f) { return f.price == null ? 'Preço a confirmar' : BRL.format(f.price); }
+
+function stepperHTML(f, cls) {
+  var id = esc(f.id), nm = esc(f.name);
+  return '<div class="stepper ' + (cls || '') + '" role="group" aria-label="Quantidade de ' + nm + '">' +
+    '<button type="button" data-dec="' + id + '" aria-label="Tirar uma ' + nm + '">−</button>' +
+    '<output data-qty="' + id + '">0</output>' +
+    '<button type="button" data-inc="' + id + '" aria-label="Adicionar uma ' + nm + '">+</button></div>';
+}
+function renderCards() {
+document.getElementById('cards').innerHTML = CONFIG.flavors.map(function (f, i) {
+  var art = f.photo ? '<img src="' + esc(f.photo) + '" alt="Pizza ' + esc(f.name) + '" loading="lazy" decoding="async">' : pizzaSVG(f.art, 3 + i * 5, true);
+  return '<article class="card' + (f.special ? ' is-special' : '') + '" id="card-' + esc(f.id) + '">' +
+    '<div class="card-art">' + art + '</div>' +
+    '<div class="card-body">' + (f.special ? '<p class="tag">Receita desta fornada</p>' : '') +
+    '<h3>' + esc(f.name) + '</h3><p class="desc">' + esc(f.desc) + '</p>' +
+    '<div class="card-meta"><span class="price' + (f.price == null ? ' pending' : '') + '">' + priceLabel(f) + '</span>' +
+    '<span class="avail' + (f.available ? '' : ' off') + '">' + (f.available ? 'Disponível' : 'Esgotado') + '</span></div>' +
+    '<div data-ctrl="' + esc(f.id) + '"></div></div></article>';
+}).join('');
+}
+renderCards();
+
+function renderControls() {
+  var n = total(), full = n >= remaining;
+  CONFIG.flavors.forEach(function (f) {
+    var box = document.querySelector('[data-ctrl="' + CSS.escape(f.id) + '"]'), q = cart[f.id];
+    var want = !f.available ? 'off' : q > 0 ? 'step' : 'add';
+    if (box.getAttribute('data-mode') !== want) {
+      var hadFocus = box.contains(document.activeElement);
+      box.setAttribute('data-mode', want);
+      box.innerHTML = want === 'off' ? '<button class="btn btn-quiet add" type="button" disabled>Esgotado</button>'
+        : want === 'add' ? '<button class="btn btn-quiet add" type="button" data-inc="' + esc(f.id) + '">Adicionar ao pedido</button>'
+        : stepperHTML(f);
+      if (hadFocus) { var t = box.querySelector(want === 'step' ? '[data-inc]' : 'button'); if (t) t.focus(); }
+    }
+  });
+  document.querySelectorAll('[data-qty]').forEach(function (o) { o.textContent = cart[o.getAttribute('data-qty')]; });
+  document.querySelectorAll('[data-inc]').forEach(function (b) { b.disabled = full; });
+  document.querySelectorAll('[data-dec]').forEach(function (b) { b.disabled = cart[b.getAttribute('data-dec')] <= 0; });
+
+  // resumo
+  var list = document.getElementById('sum-list'), items = CONFIG.flavors.filter(function (f) { return cart[f.id] > 0; });
+  var focusedId = document.activeElement && list.contains(document.activeElement) ? (document.activeElement.getAttribute('data-inc') ? 'i:' + document.activeElement.getAttribute('data-inc') : 'd:' + document.activeElement.getAttribute('data-dec')) : null;
+  list.innerHTML = items.length ? items.map(function (f) {
+    var sub = f.price == null ? 'a confirmar' : BRL.format(f.price * cart[f.id]);
+    return '<li><span class="nm">' + cart[f.id] + ' × ' + esc(f.name) + '</span><span class="pr">' + sub + '</span>' + stepperHTML(f) + '</li>';
+  }).join('') : '<li class="sum-empty" style="display:block">Nenhuma pizza ainda. Escolha os sabores no cardápio.</li>';
+  list.querySelectorAll('[data-qty]').forEach(function (o) { o.textContent = cart[o.getAttribute('data-qty')]; });
+  list.querySelectorAll('[data-inc]').forEach(function (b) { b.disabled = full; });
+  list.querySelectorAll('[data-dec]').forEach(function (b) { b.disabled = cart[b.getAttribute('data-dec')] <= 0; });
+  if (focusedId) { var el = list.querySelector(focusedId[0] === 'i' ? '[data-inc="' + CSS.escape(focusedId.slice(2)) + '"]' : '[data-dec="' + CSS.escape(focusedId.slice(2)) + '"]'); if (el) el.focus(); }
+
+  var allPriced = items.every(function (f) { return f.price != null; });
+  var sum = items.reduce(function (s, f) { return s + (f.price || 0) * cart[f.id]; }, 0);
+  document.getElementById('sum-count').textContent = n === 1 ? '1 pizza' : n + ' pizzas';
+  document.getElementById('sum-total').textContent = !n ? '—' : allPriced ? BRL.format(sum) : 'Valor confirmado pelo Marcus';
+  document.getElementById('sum-note').textContent = full ? 'Você chegou ao limite desta fornada (' + remaining + ' pizzas).' : 'Pagamento combinado diretamente com o Marcus.';
+  var bar = document.getElementById('cartbar');
+  document.getElementById('cartbar-text').textContent = (n === 1 ? '1 pizza' : n + ' pizzas') + ' no pedido';
+  bar.classList.toggle('show', n > 0 && !orderInView);
+}
+var orderInView = false;
+document.addEventListener('click', function (e) {
+  var inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]');
+  if (inc && !inc.disabled) { if (total() < remaining) cart[inc.getAttribute('data-inc')]++; renderControls(); document.getElementById('form-error').textContent = ''; }
+  if (dec && !dec.disabled) { var id = dec.getAttribute('data-dec'); cart[id] = Math.max(0, cart[id] - 1); renderControls(); }
+});
+try { new IntersectionObserver(function (es) { orderInView = es[0].isIntersecting; renderControls(); }, { threshold: .15 }).observe(document.getElementById('reservar')); } catch (e) {}
+renderControls();
+
+/* ---------------- sabores da semana vindos do painel ---------------- */
+function artFor(s) {
+  var n = (String(s.slug || '') + ' ' + String(s.nome || '')).toLowerCase();
+  if (s.especial) return 'especial';
+  if (n.indexOf('calabresa') > -1) return 'calabresa';
+  if (n.indexOf('margh') > -1 || n.indexOf('marguerita') > -1) return 'margherita';
+  return 'mucarela';
+}
+function aplicarCardapio(d) {
+  if (!d || !Array.isArray(d.sabores)) throw new Error('Resposta sem a lista "sabores".');
+  CONFIG.flavors = d.sabores
+    .filter(function (s) { return s && s.nome; })
+    .sort(function (a, b) { return (a.ordem || 0) - (b.ordem || 0); })
+    .map(function (s) {
+      var price = s.precoCentavos != null ? Number(s.precoCentavos) / 100 : null;
+      return { id: String(s.slug || s.id), sid: String(s.id), name: String(s.nome), desc: String(s.descricao || ''), price: isFinite(price) ? price : null,
+               available: s.disponivel !== false, photo: s.foto || null, art: artFor(s), special: !!s.especial };
+    });
+  CONFIG.fonte = 'painel';
+  var f = d.fornada;
+  CONFIG.batch = f ? {
+    id: f.id, date: f.rotulo || null, slots: Array.isArray(f.horarios) ? f.horarios : [],
+    capacity: Number(f.capacidade) || CONFIG.batch.capacity,
+    reserved: f.reservadas != null ? Number(f.reservadas) : null, open: f.aberta !== false
+  } : { date: null, slots: [], capacity: CONFIG.batch.capacity, reserved: null, open: true };
+}
+function carregarCardapio() {
+  var url = CONFIG.api && CONFIG.api.cardapioUrl;
+  if (!url) return;
+  var cards = document.getElementById('cards'); cards.setAttribute('aria-busy', 'true');
+  var ctl = 'AbortController' in window ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctl) ctl.abort(); }, CONFIG.api.timeoutMs || 6000);
+  fetch(url, { headers: { Accept: 'application/json' }, signal: ctl ? ctl.signal : undefined })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function (d) { aplicarCardapio(d); renderBatch(); syncCart(); renderCards(); renderControls(); })
+    .catch(function (e) { console.warn('Cardápio do painel indisponível; usando os sabores do site.', e); })
+    .then(function () { clearTimeout(timer); cards.removeAttribute('aria-busy'); });
+}
+carregarCardapio();
+
+/* validação e envio */
+var form = document.getElementById('order-form');
+function setErr(id, msg) { document.getElementById('e-' + id).textContent = msg; document.getElementById('f-' + id).closest('.field').classList.toggle('invalid', !!msg); document.getElementById('f-' + id).setAttribute('aria-invalid', msg ? 'true' : 'false'); if (msg) document.getElementById('f-' + id).setAttribute('aria-describedby', 'e-' + id); }
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var nome = form.nome.value.trim(), tel = form.tel.value.trim(), apto = form.apto.value.trim();
+  var digits = tel.replace(/\D/g, ''), firstBad = null;
+  setErr('nome', nome ? '' : 'Diga seu nome para o Marcus saber de quem é o pedido.'); if (!nome) firstBad = firstBad || 'f-nome';
+  var telOk = digits.length >= 10 && digits.length <= 13;
+  setErr('tel', telOk ? '' : 'Informe o WhatsApp com DDD, por exemplo (11) 91234-5678.'); if (!telOk) firstBad = firstBad || 'f-tel';
+  setErr('apto', apto ? '' : 'Informe a torre e o apartamento para a entrega.'); if (!apto) firstBad = firstBad || 'f-apto';
+  var n = total(), fe = document.getElementById('form-error');
+  fe.textContent = n ? '' : 'Escolha pelo menos uma pizza no cardápio.';
+  if (!n && !firstBad) { document.getElementById('sabores').scrollIntoView({ behavior: 'smooth' }); return; }
+  if (firstBad) { document.getElementById(firstBad).focus(); return; }
+
+  var escolhidos = CONFIG.flavors.filter(function (f) { return cart[f.id] > 0; });
+  var lines = escolhidos.map(function (f) { return '• ' + cart[f.id] + '× ' + f.name; });
+  var slot = form.slot ? form.slot.value.trim() : '';
+  var obs = form.obs.value.trim();
+  var resumo = lines.join('\n') +
+    '\n\nNome: ' + nome + '\nWhatsApp: ' + tel + '\nTorre/apto: ' + apto + '\nRecebimento: ' + form.entrega.value +
+    (slot ? '\nHorário: ' + slot : '') + (obs ? '\nObservações: ' + obs : '');
+  var quando = B.date ? 'fornada de ' + B.date : 'próxima fornada';
+
+  if (CONFIG.fonte !== 'painel' || !CONFIG.api.reservaUrl) {
+    mostrarConcluido(nome, 'Olá, Marcus! Quero reservar na ' + quando + ':\n' + resumo, null);
+    return;
+  }
+
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Enviando reserva…';
+  fetch(CONFIG.api.reservaUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      fornadaId: B.id || null,
+      itens: escolhidos.map(function (f) { return { saborId: f.sid, quantidade: cart[f.id] }; }),
+      nome: nome, whatsapp: tel, apto: apto, recebimento: form.entrega.value,
+      horario: slot || null, obs: obs || null, website: form.website.value
+    })
+  }).then(function (r) {
+    return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, d: d }; });
+  }).then(function (res) {
+    if (res.status === 201) {
+      var codigo = res.d.pedidoId ? ' (reserva ' + res.d.pedidoId + ')' : '';
+      mostrarConcluido(nome, 'Olá, Marcus! Acabei de fazer uma reserva pelo site' + codigo + ' para a ' + quando + ':\n' + resumo, res.d.pedidoId || true);
+      cart = {}; syncCart(); renderControls(); form.reset(); carregarCardapio();
+    } else if (res.status >= 500) {
+      throw new Error('painel');
+    } else {
+      fe.textContent = res.d.erro || 'Não foi possível registrar a reserva.';
+      if (res.status === 409) carregarCardapio();
+    }
+  }).catch(function () {
+    mostrarConcluido(nome, 'Olá, Marcus! Quero reservar na ' + quando + ':\n' + resumo, null, true);
+  }).then(function () {
+    btn.disabled = false; btn.textContent = 'Enviar reserva';
+  });
+});
+
+function mostrarConcluido(nome, msg, registrado, falhou) {
+  var href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(msg);
+  var primeiro = esc(nome.split(' ')[0]);
+  var done = document.getElementById('done');
+  done.innerHTML = '<div class="done" tabindex="-1" id="done-box">' +
+    (registrado
+      ? '<p class="eyebrow">Reserva recebida</p><h3>Sua reserva está guardada, ' + primeiro + '.</h3>' +
+        '<p>As pizzas já estão separadas na fornada. O Marcus confirma o horário e o pagamento pelo WhatsApp. Se quiser adiantar, envie a mensagem abaixo.</p>'
+      : '<p class="eyebrow">Quase lá</p><h3>Seu pedido está pronto, ' + primeiro + '.</h3>' +
+        '<p>' + (falhou ? 'Não consegui registrar a reserva automaticamente agora. ' : '') +
+        'Envie a mensagem abaixo para o Marcus pelo WhatsApp. A reserva fica confirmada quando ele responder com a data e o valor.</p>') +
+    '<pre id="done-msg"></pre><div class="row"><a class="btn btn-primary" href="' + href + '" target="_blank" rel="noopener">Abrir no WhatsApp</a>' +
+    '<button class="btn btn-quiet" type="button" id="copy-msg">Copiar mensagem</button>' +
+    (registrado ? '' : '<button class="btn btn-quiet" type="button" id="edit-order">Editar pedido</button>') + '</div>' +
+    '<p class="small">Se o WhatsApp não abrir, copie a mensagem e envie para ' + esc(CONFIG.whatsappDisplay) + '.</p></div>';
+  document.getElementById('done-msg').textContent = msg;
+  form.hidden = true; done.hidden = false; document.getElementById('submit-btn').hidden = true;
+  document.getElementById('done-box').focus();
+  document.getElementById('copy-msg').addEventListener('click', function () { copyText(msg, this); });
+  var edit = document.getElementById('edit-order');
+  if (edit) edit.addEventListener('click', function () { form.hidden = false; done.hidden = true; document.getElementById('submit-btn').hidden = false; form.nome.focus(); });
+}
+
+/* ---------------- filme ---------------- */
+(function () {
+  var fig = document.getElementById('film'), v = document.getElementById('film-video'), src = document.getElementById('film-src'), btn = document.getElementById('film-toggle');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = !!(navigator.connection && navigator.connection.saveData) || matchMedia('(prefers-reduced-data: reduce)').matches;
+  var userPaused = reduce || saveData, inView = true;
+  var PLAY = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5 L12 7 L3 12.5Z" fill="currentColor"/></svg>';
+  var PAUSE = btn.innerHTML;
+  function sync() {
+    var want = !userPaused && inView && !document.hidden;
+    if (want && v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    if (!want && !v.paused) v.pause();
+    btn.innerHTML = userPaused ? PLAY : PAUSE; btn.setAttribute('aria-label', userPaused ? 'Reproduzir o filme' : 'Pausar o filme');
+  }
+  if (userPaused) { v.removeAttribute('autoplay'); v.pause(); if (saveData) v.preload = 'none'; }
+  btn.addEventListener('click', function () { userPaused = !userPaused; sync(); });
+  var som = document.getElementById('film-sound');
+  som.addEventListener('click', function () {
+    v.muted = !v.muted;
+    som.setAttribute('aria-pressed', String(!v.muted));
+    som.setAttribute('aria-label', v.muted ? 'Ativar o som do filme' : 'Desativar o som do filme');
+    if (!v.muted && userPaused) { userPaused = false; if (saveData) v.preload = 'auto'; sync(); }
+  });
+  src.addEventListener('error', function () { fig.classList.add('is-missing'); });
+  v.addEventListener('error', function () { fig.classList.add('is-missing'); });
+  document.addEventListener('visibilitychange', sync);
+  try { new IntersectionObserver(function (es) { inView = es[0].isIntersecting; sync(); }, { threshold: .2 }).observe(fig); } catch (e) {}
+  var mq = matchMedia('(min-width: 900px)');
+  function place() { var slot = document.getElementById(mq.matches ? 'film-slot-hero' : 'film-slot-mobile'); if (fig.parentNode !== slot) slot.appendChild(fig); sync(); }
+  mq.addEventListener ? mq.addEventListener('change', place) : mq.addListener(place);
+  place();
+})();
+
+/* ---------------- trilho de capítulos e leitura progressiva ---------------- */
+(function () {
+  var links = [].slice.call(document.querySelectorAll('[data-rail]'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('data-rail')); });
+  var paras = [].slice.call(document.querySelectorAll('.story p'));
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var c = innerHeight * .5, on = 0;
+    secs.forEach(function (s, i) { if (s.getBoundingClientRect().top <= c) on = i; });
+    document.querySelector('.rail').classList.toggle('away', on === 0);
+    links.forEach(function (a, i) { a.classList.toggle('on', i === on); if (i === on) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current'); });
+    if (!reduce.matches) paras.forEach(function (p) {
+      var t = p.getBoundingClientRect().top, r = (innerHeight * .82 - t) / (innerHeight * .3);
+      p.style.setProperty('--read', Math.max(0.28, Math.min(1, r)).toFixed(3));
+    });
+  }
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update);
+  update();
+})();
+</script>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+
+<script type="module">
+/* ======================================================================
+   PALCO 3D — uma cena WebGL persistente, guiada pelo progresso do scroll.
+   Linha do tempo S: 0–1 massa · 1–2 tempo · 2–3 montagem · 3–4 forno · 5–6 mesa
+   ====================================================================== */
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+const root = document.documentElement;
+if (!root.classList.contains('no-gl')) {
+  try { boot(); } catch (err) { console.error(err); root.classList.remove('gl-pending'); root.classList.add('no-gl'); }
+}
+
+function boot() {
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const sm = (e0, e1, x) => { const t = clamp((x - e0) / (e1 - e0)); return t * t * (3 - 2 * t); };
+  const C = (hex) => new THREE.Color(hex);
+
+  const canvas = document.getElementById('stage');
+  const RM = matchMedia('(prefers-reduced-motion: reduce)');
+  const cores = navigator.hardwareConcurrency || 8, mem = navigator.deviceMemory || 8;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  const small = Math.min(innerWidth, innerHeight) < 700;
+  const LOW = cores <= 4 || mem <= 4 || saveData;
+  const SHADOWS = !LOW && !small;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !LOW, alpha: true, powerPreference: 'high-performance' });
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.NeutralToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = SHADOWS;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const DPR = Math.min(devicePixelRatio || 1, LOW ? 1 : small ? 1.5 : 1.75);
+  renderer.setPixelRatio(DPR);
+
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const envRT = pmrem.fromScene(new RoomEnvironment(), 0.04);
+  scene.environment = envRT.texture;
+  scene.environmentIntensity = 0.38;
+  pmrem.dispose();
+
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 120);
+
+  /* ---------- luzes ---------- */
+  const hemi = new THREE.HemisphereLight(C('#FFF4E6'), C('#C9A27A'), 1.25);
+  scene.add(hemi);
+  const sun = new THREE.DirectionalLight(C('#FFE9D2'), 2.3);
+  sun.position.set(5, 11, 6);
+  sun.target.position.set(0, 0, -3);
+  scene.add(sun, sun.target);
+  if (SHADOWS) {
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    const sc = sun.shadow.camera; sc.left = -12; sc.right = 12; sc.top = 12; sc.bottom = -12; sc.near = 1; sc.far = 40;
+    sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+  }
+  const fill = new THREE.DirectionalLight(C('#F2C9A0'), 0.55);
+  fill.position.set(-6, 3, -2);
+  scene.add(fill);
+  const ember = new THREE.PointLight(C('#FF7A2E'), 0, 0, 2);
+  ember.position.set(0, 3.1, -4.2);
+  scene.add(ember);
+
+  /* ---------- texturas procedurais ---------- */
+  function canvasTex(w, h, draw, srgb = true) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    draw(c.getContext('2d'), w, h);
+    const t = new THREE.CanvasTexture(c);
+    if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+    return t;
+  }
+  let seed = 11; const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+  const woodTex = canvasTex(512, 256, (x, w, h) => {
+    x.fillStyle = '#C99863'; x.fillRect(0, 0, w, h);
+    for (let i = 0; i < 70; i++) {
+      const y = rand() * h, a = 2 + rand() * 6, f = .01 + rand() * .02;
+      x.strokeStyle = `rgba(${110 + rand() * 30},${62 + rand() * 20},${30},${.08 + rand() * .16})`;
+      x.lineWidth = .6 + rand() * 2.4; x.beginPath();
+      for (let px = 0; px <= w; px += 8) x.lineTo(px, y + Math.sin(px * f + i) * a);
+      x.stroke();
+    }
+  });
+  const brickTex = canvasTex(512, 256, (x, w, h) => {
+    x.fillStyle = '#D9A875'; x.fillRect(0, 0, w, h);
+    x.strokeStyle = 'rgba(130,82,45,.35)'; x.lineWidth = 3;
+    for (let r = 0; r < 8; r++) {
+      const y = r * 32; x.beginPath(); x.moveTo(0, y); x.lineTo(w, y); x.stroke();
+      for (let c = 0; c < 9; c++) { const px = c * 64 + (r % 2) * 32; x.beginPath(); x.moveTo(px, y); x.lineTo(px, y + 32); x.stroke(); }
+    }
+  });
+  brickTex.wrapS = brickTex.wrapT = THREE.RepeatWrapping; brickTex.repeat.set(1.5, .6);
+  const emberTex = canvasTex(256, 256, (x, w, h) => {
+    x.fillStyle = '#1B110C'; x.fillRect(0, 0, w, h);
+    const g = x.createRadialGradient(w / 2, h * 1.02, 10, w / 2, h * 1.02, h * .9);
+    g.addColorStop(0, 'rgba(255,170,80,1)'); g.addColorStop(.35, 'rgba(240,110,40,.75)'); g.addColorStop(1, 'rgba(60,20,8,0)');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    x.fillStyle = 'rgba(255,190,110,.7)'; x.filter = 'blur(7px)';
+    for (let i = 0; i < 7; i++) {
+      const cx = w * (.2 + i * .1) + rand() * 10, hh = 40 + rand() * 50;
+      x.beginPath(); x.moveTo(cx - 14, h); x.quadraticCurveTo(cx - 6, h - hh * .6, cx, h - hh); x.quadraticCurveTo(cx + 6, h - hh * .6, cx + 14, h); x.fill();
+    }
+  });
+  const blobTex = canvasTex(128, 128, (x, w, h) => {
+    const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+    g.addColorStop(0, 'rgba(40,27,22,.55)'); g.addColorStop(1, 'rgba(40,27,22,0)');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+  });
+
+  /* ---------- materiais ---------- */
+  const M = {
+    dough: new THREE.MeshStandardMaterial({ color: C('#EAD3AA'), roughness: .8 }),
+    char: new THREE.MeshStandardMaterial({ color: C('#2B170D'), roughness: 1, transparent: true, opacity: 0, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
+    sauce: new THREE.MeshStandardMaterial({ color: C('#A8341E'), roughness: .42 }),
+    cheese: new THREE.MeshStandardMaterial({ color: C('#F8F3EA'), roughness: .55 }),
+    basil: new THREE.MeshStandardMaterial({ color: C('#3F6E33'), roughness: .55, side: THREE.DoubleSide }),
+    wood: new THREE.MeshStandardMaterial({ map: woodTex, roughness: .78 }),
+    flour: new THREE.MeshStandardMaterial({ color: C('#FBF7F0'), roughness: 1, transparent: true }),
+    terracotta: new THREE.MeshStandardMaterial({ color: C('#8E3E25'), roughness: .82 }),
+    terracottaDark: new THREE.MeshStandardMaterial({ color: C('#6F2D1A'), roughness: .85 }),
+    brick: new THREE.MeshStandardMaterial({ map: brickTex, roughness: .9 }),
+    soot: new THREE.MeshStandardMaterial({ color: C('#33231C'), roughness: .9 }),
+    log: new THREE.MeshStandardMaterial({ color: C('#B98654'), roughness: .9 }),
+    ember: new THREE.MeshBasicMaterial({ map: emberTex }),
+    tomato: new THREE.MeshStandardMaterial({ color: C('#B5321E'), roughness: .32 }),
+    stem: new THREE.MeshStandardMaterial({ color: C('#4E7A34'), roughness: .6 }),
+    ceramic: new THREE.MeshStandardMaterial({ color: C('#F5EFE6'), roughness: .32 }),
+    bowl: new THREE.MeshStandardMaterial({ color: C('#8E3E25'), roughness: .45 }),
+    glass: new THREE.MeshStandardMaterial({ color: C('#FFFFFF'), roughness: .05, metalness: 0, transparent: true, opacity: .22, depthWrite: false }),
+    napkin: new THREE.MeshStandardMaterial({ color: C('#B65A3A'), roughness: .9 }),
+    blob: new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, depthWrite: false })
+  };
+  const RAW = { dough: C('#EAD3AA'), sauce: C('#A8341E'), cheese: C('#F8F3EA'), basil: C('#3F6E33') };
+  const BAKED = { dough: C('#D69A52'), sauce: C('#8C2816'), cheese: C('#F3DDB0'), basil: C('#2C4F25') };
+
+  const shadow = (o, cast = true, recv = true) => { o.traverse(m => { if (m.isMesh) { m.castShadow = cast && SHADOWS; m.receiveShadow = recv && SHADOWS; } }); return o; };
+  const blobShadow = (r, op = .5) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(r * 2, r * 2), M.blob.clone()); m.material.opacity = op; m.rotation.x = -Math.PI / 2; m.visible = !SHADOWS; m.renderOrder = -1; return m; };
+
+  /* ---------- a massa: bola → disco (morph sobre um torno) ---------- */
+  const NP = 56, SEG = LOW ? 64 : 96;
+  function resample(pts, n) {
+    const L = [0]; for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    const total = L[L.length - 1], out = []; let k = 0;
+    for (let i = 0; i < n; i++) {
+      const d = total * i / (n - 1);
+      while (k < pts.length - 2 && L[k + 1] < d) k++;
+      const t = (d - L[k]) / ((L[k + 1] - L[k]) || 1);
+      out.push(new THREE.Vector2(Math.max(0, lerp(pts[k][0], pts[k + 1][0], t)), lerp(pts[k][1], pts[k + 1][1], t)));
+    }
+    return out;
+  }
+  const ballRaw = [];
+  for (let i = 0; i <= 120; i++) {
+    const a = -Math.PI / 2 + Math.PI * i / 120, c = Math.cos(a), s = Math.sin(a);
+    const x = 0.92 * Math.pow(Math.max(c, 0), 0.78);
+    const y = s < 0 ? 0.44 * (1 - Math.pow(-s, 2.2)) : 0.44 + 0.6 * s;
+    ballRaw.push([i === 0 || i === 120 ? 0 : x, y]);
+  }
+  const baseRaw = [[0, 0], [2.02, 0]];
+  for (let i = 1; i <= 48; i++) { const a = -Math.PI / 2 + Math.PI * 1.5 * i / 48; baseRaw.push([2.03 + 0.21 * Math.cos(a), 0.175 + 0.18 * Math.sin(a)]); }
+  baseRaw.push([1.7, 0.092], [1.2, 0.088], [0, 0.088]);
+  const ballP = resample(ballRaw, NP), baseP = resample(baseRaw, NP);
+
+  const noise = (phi, t) => Math.sin(3 * phi + 2.1 + t * 5) * .5 + Math.sin(7 * phi + t * 11 + .7) * .3 + Math.sin(13 * phi + 1.3 + t * 3) * .2;
+  function shapeGeo(points, kind) {
+    const g = new THREE.LatheGeometry(points, SEG);
+    const p = g.attributes.position, uv = g.attributes.uv;
+    for (let i = 0; i < p.count; i++) {
+      const phi = uv.getX(i) * Math.PI * 2, t = uv.getY(i), n = noise(phi, t);
+      let x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+      if (kind === 'ball') { const k = 1 + 0.02 * n; x *= k; z *= k; y *= 1 + 0.012 * n; }
+      else {
+        const r = Math.hypot(x, z);
+        if (r > 1.72 && y > 0.06) { const k = 1 + 0.014 * n; x *= k; z *= k; y = 0.09 + (y - 0.09) * (1 + 0.22 * noise(phi * 1.0 + 1.7, t * .3)); }
+        else if (y > 0.05) y += 0.004 * n;
+      }
+      p.setXYZ(i, x, y, z);
+    }
+    g.computeVertexNormals();
+    const nrm = g.attributes.normal, cols = NP;
+    for (let j = 0; j < cols; j++) {
+      const a = j, b = SEG * cols + j, v = new THREE.Vector3(nrm.getX(a) + nrm.getX(b), nrm.getY(a) + nrm.getY(b), nrm.getZ(a) + nrm.getZ(b)).normalize();
+      nrm.setXYZ(a, v.x, v.y, v.z); nrm.setXYZ(b, v.x, v.y, v.z);
+    }
+    return g;
+  }
+  const doughGeo = shapeGeo(ballP, 'ball');
+  const baseGeo = shapeGeo(baseP, 'base');
+  doughGeo.morphAttributes.position = [baseGeo.attributes.position];
+  doughGeo.morphAttributes.normal = [baseGeo.attributes.normal];
+
+  // manchas de forno ("leopardo") só na borda
+  let vMin = 1, vMax = 0;
+  baseP.forEach((pt, j) => { if (pt.x > 1.78 && pt.y > 0.04) { const v = j / (NP - 1); vMin = Math.min(vMin, v); vMax = Math.max(vMax, v); } });
+  const charTex = canvasTex(1024, 512, (x, w, h) => {
+    x.fillStyle = '#000'; x.fillRect(0, 0, w, h);
+    const band = (vMax - vMin);
+    for (let i = 0; i < 260; i++) {
+      const u = rand(), v = vMin + band * (.12 + rand() * .8), r = 3 + Math.pow(rand(), 2) * 16;
+      const px = u * w, py = (1 - v) * h;
+      const g = x.createRadialGradient(px, py, 0, px, py, r);
+      g.addColorStop(0, `rgba(255,255,255,${.6 + rand() * .4})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = g; x.beginPath(); x.ellipse(px, py, r * 1.4, r, rand() * 3, 0, Math.PI * 2); x.fill();
+    }
+    for (let i = 0; i < 70; i++) {
+      const u = rand(), v = rand() * vMin * .9, r = 4 + rand() * 10, px = u * w, py = (1 - v) * h;
+      const g = x.createRadialGradient(px, py, 0, px, py, r); g.addColorStop(0, 'rgba(255,255,255,.55)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = g; x.fillRect(px - r, py - r, r * 2, r * 2);
+    }
+  }, false);
+  M.char.alphaMap = charTex;
+
+  const pizza = new THREE.Group(); scene.add(pizza);
+  const dough = new THREE.Mesh(doughGeo, M.dough); pizza.add(dough);
+  const charMesh = new THREE.Mesh(doughGeo, M.char); charMesh.renderOrder = 2; charMesh.visible = false; pizza.add(charMesh);
+  shadow(dough); charMesh.castShadow = false;
+  const doughBlob = blobShadow(1.4, .45); doughBlob.position.y = 0.004; pizza.add(doughBlob);
+
+  // molho
+  const sauceGeo = new THREE.CircleGeometry(1.76, 120);
+  { const p = sauceGeo.attributes.position; for (let i = 1; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), a = Math.atan2(y, x), k = 1 + 0.025 * Math.sin(7 * a + 1) + 0.015 * Math.sin(13 * a + 2) + 0.01 * Math.sin(29 * a); p.setXY(i, x * k, y * k); } }
+  sauceGeo.rotateX(-Math.PI / 2);
+  const sauce = new THREE.Mesh(sauceGeo, M.sauce); sauce.position.y = 0.105; sauce.receiveShadow = SHADOWS; pizza.add(sauce);
+
+  // muçarela
+  const cheeseGeo = new THREE.SphereGeometry(0.3, 22, 14);
+  { const p = cheeseGeo.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i); const k = 1 + 0.12 * Math.sin(x * 9 + z * 7) * Math.cos(z * 8 - y * 5); p.setXYZ(i, x * k, y, z * k); } cheeseGeo.computeVertexNormals(); }
+  const CHEESE = [[0.05, -0.1, 1.05], [1.05, 0.35, .92], [-0.55, 1.0, .95], [-1.1, -0.35, 1.0], [0.4, -1.15, .9], [1.05, -0.72, .85], [-0.5, -0.92, .8], [0.48, 0.98, .88], [-1.2, 0.5, .78]];
+  const cheeses = CHEESE.map(([x, z, s], i) => {
+    const m = new THREE.Mesh(cheeseGeo, M.cheese); m.userData = { x, z, s, spin: [rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1] };
+    shadow(m); pizza.add(m); return m;
+  });
+
+  // manjericão (começa sobre a tábua, ao lado dos tomates)
+  const leafShape = new THREE.Shape(); leafShape.moveTo(0, -0.3); leafShape.quadraticCurveTo(0.24, -0.08, 0, 0.3); leafShape.quadraticCurveTo(-0.24, -0.08, 0, -0.3);
+  const leafGeo = new THREE.ShapeGeometry(leafShape, 12); leafGeo.rotateX(-Math.PI / 2);
+  { const p = leafGeo.attributes.position; for (let i = 0; i < p.count; i++) p.setY(i, Math.abs(p.getX(i)) * 0.18); leafGeo.computeVertexNormals(); }
+  const BASIL = [
+    { from: [2.4, 0.5, 0.4], to: [0.62, 0.3, 0.5] },
+    { from: [2.62, 0.02, 2.0], to: [-0.38, 0.42, 2.3] },
+    { from: [2.15, 1.02, 3.1], to: [-0.22, -0.55, 4.1] },
+    { from: [2.5, -0.5, 4.4], to: [0.98, -0.2, 1.2] }
+  ];
+  const leaves = BASIL.map(b => { const m = new THREE.Mesh(leafGeo, M.basil); shadow(m); pizza.add(m); return m; });
+
+  // pá de forno
+  const peel = new THREE.Group();
+  const peelDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 0.05, 64), M.wood); peel.add(peelDisc);
+  const handle = new THREE.Mesh(new RoundedBoxGeometry(0.28, 0.08, 3.2, 2, .03), M.wood); handle.position.set(0, 0, 2.4 + 1.5); peel.add(handle);
+  peel.position.y = -0.03; shadow(peel); pizza.add(peel);
+
+  /* ---------- bancada ---------- */
+  const prep = new THREE.Group(); scene.add(prep);
+
+  const FLOUR_N = LOW ? 140 : 300;
+  const flour = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 6, 4), M.flour, FLOUR_N);
+  { const o = new THREE.Object3D(); for (let i = 0; i < FLOUR_N; i++) {
+      let x, z; const cluster = i % 3 === 0;
+      if (cluster) { x = -0.9 + (rand() - .5) * 1.3; z = 1.3 + (rand() - .5) * .8; }
+      else { const a = rand() * Math.PI * 2, r = 1.0 + Math.pow(rand(), 1.7) * 1.5; x = Math.cos(a) * r; z = Math.sin(a) * r * .8 + .15; }
+      const s = .02 + rand() * .05; o.position.set(x, 0.004, z); o.scale.set(s, s * .25, s * (.6 + rand() * .8)); o.rotation.y = rand() * 3; o.updateMatrix(); flour.setMatrixAt(i, o.matrix);
+  } }
+  prep.add(flour);
+
+  const bowl = new THREE.Group();
+  const bowlProfile = [[0, 0], [0.42, 0], [0.62, 0.12], [0.74, 0.38], [0.76, 0.46], [0.7, 0.46], [0.66, 0.38], [0.56, 0.16], [0.4, 0.07], [0, 0.07]].map(([x, y]) => new THREE.Vector2(x, y));
+  bowl.add(new THREE.Mesh(new THREE.LatheGeometry(bowlProfile, 48), M.bowl));
+  const flourTop = new THREE.Mesh(new THREE.SphereGeometry(0.68, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2), M.flour); flourTop.scale.y = .35; flourTop.position.y = 0.28; bowl.add(flourTop);
+  bowl.position.set(-1.55, 0, -2.45); shadow(bowl); prep.add(bowl);
+  const bowlBlob = blobShadow(1, .45); bowlBlob.position.set(-1.55, 0.003, -2.45); prep.add(bowlBlob);
+
+  const tomatoGeo = new THREE.SphereGeometry(0.21, 24, 16);
+  const props = [bowl, bowlBlob];
+  [[2.0, -1.6, 1], [1.5, -2.08, .9], [2.32, -1.05, .82]].forEach(([x, z, s]) => {
+    const tg = new THREE.Group(); tg.position.set(x, 0, z); tg.scale.setScalar(s); prep.add(tg); props.push(tg);
+    const t = new THREE.Mesh(tomatoGeo, M.tomato); t.scale.y = .88; t.position.y = 0.18; shadow(t); tg.add(t);
+    const st = new THREE.Mesh(new THREE.ConeGeometry(.08, .05, 5), M.stem); st.position.y = 0.37; tg.add(st);
+    const b = blobShadow(.32, .4); b.position.y = 0.003; tg.add(b);
+  });
+
+  // mostrador da fermentação
+  const ringMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false,
+    uniforms: { uP: { value: 0 }, uO: { value: 0 }, uA: { value: C('#8E3E25') }, uB: { value: C('#2D2520') } },
+    vertexShader: 'varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+    fragmentShader: 'uniform float uP; uniform float uO; uniform vec3 uA; uniform vec3 uB; varying vec2 vP; void main(){ float a = atan(vP.x, vP.y); if (a < 0.0) a += 6.2831853; float f = a / 6.2831853; float on = step(f, uP); vec3 c = mix(uB, uA, on); gl_FragColor = vec4(c, mix(0.16, 1.0, on) * uO); \n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'
+  });
+  const ring = new THREE.Mesh(new THREE.RingGeometry(1.5, 1.6, 180, 1), ringMat); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.012; ring.renderOrder = 3;
+  prep.add(ring);
+  const tickMat = new THREE.MeshBasicMaterial({ color: C('#2D2520'), transparent: true, opacity: 0, depthWrite: false });
+  const ticks = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), tickMat, 24);
+  { const o = new THREE.Object3D(); for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, big = i % 8 === 0, r = big ? 1.8 : 1.76; o.position.set(Math.sin(a) * r, 0.012, -Math.cos(a) * r); o.rotation.set(-Math.PI / 2, 0, -a); o.scale.set(big ? .035 : .02, big ? .2 : .1, 1); o.updateMatrix(); ticks.setMatrixAt(i, o.matrix); } }
+  ticks.renderOrder = 3; prep.add(ticks);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 10), new THREE.MeshStandardMaterial({ color: C('#8E3E25'), roughness: .4, transparent: true, opacity: 0 }));
+  prep.add(head);
+
+  /* ---------- forno ---------- */
+  const oven = new THREE.Group(); oven.position.set(0, 0, -9.5); scene.add(oven);
+  const ovenInner = new THREE.Group(); ovenInner.scale.setScalar(1.6); oven.add(ovenInner);
+  const base = new THREE.Mesh(new RoundedBoxGeometry(6.6, 1.3, 7.2, 3, .08), M.brick); base.position.set(0, .65, .4); ovenInner.add(base);
+  const niche = new THREE.Mesh(new THREE.BoxGeometry(3.6, .8, .1), M.soot); niche.position.set(0, .62, 4.0); ovenInner.add(niche);
+  const logGeo = new THREE.CylinderGeometry(.17, .17, .3, 16); logGeo.rotateX(Math.PI / 2);
+  for (let i = 0; i < 9; i++) { const l = new THREE.Mesh(logGeo, M.log); l.position.set(-1.4 + (i % 5) * .7 + (i >= 5 ? .35 : 0), i >= 5 ? .82 : .44, 4.02); ovenInner.add(l); }
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(2.7, 64, 32, 0, Math.PI * 2, 0, Math.PI / 2), M.terracotta); dome.scale.y = .82; dome.position.y = 1.3; ovenInner.add(dome);
+  const archOuter = new THREE.Shape(); archOuter.moveTo(-1.75, 0); archOuter.lineTo(-1.75, .55); archOuter.absarc(0, .55, 1.75, Math.PI, 0, true); archOuter.lineTo(1.75, 0); archOuter.lineTo(-1.75, 0);
+  const hole = new THREE.Path(); hole.moveTo(-1.45, 0); hole.lineTo(1.45, 0); hole.lineTo(1.45, .45); hole.absarc(0, .45, 1.45, 0, Math.PI, false); hole.lineTo(-1.45, 0);
+  archOuter.holes.push(hole);
+  const arch = new THREE.Mesh(new THREE.ExtrudeGeometry(archOuter, { depth: 1.2, bevelEnabled: true, bevelSize: .04, bevelThickness: .04, bevelSegments: 2, curveSegments: 32 }), M.terracottaDark);
+  arch.position.set(0, 1.3, 1.8); ovenInner.add(arch);
+  const mouthShape = new THREE.Shape(); mouthShape.moveTo(-1.45, 0); mouthShape.lineTo(1.45, 0); mouthShape.lineTo(1.45, .45); mouthShape.absarc(0, .45, 1.45, 0, Math.PI, false); mouthShape.lineTo(-1.45, 0);
+  const mouthGeo = new THREE.ShapeGeometry(mouthShape, 32);
+  { const p = mouthGeo.attributes.position, uv = mouthGeo.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, (p.getX(i) + 1.45) / 2.9, p.getY(i) / 1.9); }
+  const mouth = new THREE.Mesh(mouthGeo, M.ember); mouth.position.set(0, 1.3, 2.72); ovenInner.add(mouth);
+  const chimney = new THREE.Mesh(new THREE.CylinderGeometry(.26, .3, 1.1, 24), M.soot); chimney.position.set(0, 3.45, -.5); ovenInner.add(chimney);
+  shadow(oven);
+  const ovenBlob = blobShadow(6.4, .4); ovenBlob.position.set(0, 0.003, -8.9); scene.add(ovenBlob);
+
+  /* ---------- mesa posta ---------- */
+  const table = new THREE.Group(); scene.add(table);
+  const top = new THREE.Mesh(new THREE.CylinderGeometry(5.4, 5.4, 0.3, 96), M.wood); top.position.y = -0.15; table.add(top);
+  const plateProfile = [[0, 0], [0.6, 0], [0.63, 0.02], [0.9, 0.09], [0.93, 0.115], [0.89, 0.11], [0.6, 0.035], [0, 0.035]].map(([x, y]) => new THREE.Vector2(x, y));
+  const plateGeo = new THREE.LatheGeometry(plateProfile, 64);
+  const glassProfile = [[0, 0], [0.3, 0], [0.34, 0.78], [0.31, 0.78], [0.27, 0.05], [0, 0.05]].map(([x, y]) => new THREE.Vector2(x, y));
+  const glassGeo = new THREE.LatheGeometry(glassProfile, 40);
+  [0, 1, 2, 3].forEach(i => {
+    const a = Math.PI / 4 + i * Math.PI / 2, x = Math.cos(a) * 3.45, z = Math.sin(a) * 3.45;
+    const pl = new THREE.Mesh(plateGeo, M.ceramic); pl.position.set(x, 0.0, z); table.add(pl);
+    if (i % 2 === 0) { const n = new THREE.Mesh(new RoundedBoxGeometry(1.0, .03, .62, 2, .01), M.napkin); n.position.set(x * 1.27, 0.015, z * 1.27); n.rotation.y = -a + .4; table.add(n); }
+    else { const gl = new THREE.Mesh(glassGeo, M.glass); const b = a + .55; gl.position.set(Math.cos(b) * 4.55, 0, Math.sin(b) * 4.55); table.add(gl); }
+  });
+  shadow(table, true, true);
+  table.children.forEach(m => { if (m.material === M.glass) m.castShadow = false; });
+  const tableBlob = blobShadow(6.4, .45); tableBlob.position.y = -0.31; table.add(tableBlob);
+
+  const catcher = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({ opacity: .13 }));
+  catcher.rotation.x = -Math.PI / 2; catcher.position.y = 0; catcher.receiveShadow = true; catcher.visible = SHADOWS; scene.add(catcher);
+
+  /* ---------- câmera: quadros-chave [S, posição, alvo] ---------- */
+  const KEYS = [
+    [0.00, [0, 3.6, 9.4], [0, 0.45, -0.3]],
+    [1.00, [0.6, 4.2, 7.4], [0, 0.4, 0]],
+    [1.55, [1.0, 7.3, 5.0], [0, 0.0, 0]],
+    [2.05, [0.6, 8.1, 5.4], [0, 0.0, 0]],
+    [2.55, [-1.6, 8.6, 6.4], [0, 0.0, 0]],
+    [2.97, [-2.4, 7.9, 7.3], [0, 0.1, 0]],
+    [3.16, [11, 8, 12.5], [0, 2.2, -5.5]],
+    [3.42, [5.8, 5.4, 5.2], [0, 2.4, -6.5]],
+    [3.62, [3.2, 4.3, 1.4], [0, 2.7, -7.0]],
+    [3.85, [0, 7.6, 3.6], [0, 2.1, -2.6]],
+    [4.00, [0, 7.4, 1.6], [0, 2.15, -2.6]],
+    [5.00, [9.5, 11, 12], [0, 0, 0]],
+    [5.70, [1.0, 22, 1.5], [0, 0, 0]],
+    [6.00, [0.05, 23.5, 0.06], [0, 0, 0]]
+  ];
+  const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * t);
+  const _p = new THREE.Vector3(), _t = new THREE.Vector3();
+  function camAt(S) {
+    if (S <= KEYS[0][0]) { _p.fromArray(KEYS[0][1]); _t.fromArray(KEYS[0][2]); return; }
+    for (let i = 0; i < KEYS.length - 1; i++) {
+      const a = KEYS[i], b = KEYS[i + 1];
+      if (S <= b[0]) {
+        const t = (a[0] === 4 && b[0] === 5) ? 1 : ease(clamp((S - a[0]) / (b[0] - a[0])));
+        _p.set(lerp(a[1][0], b[1][0], t), lerp(a[1][1], b[1][1], t), lerp(a[1][2], b[1][2], t));
+        _t.set(lerp(a[2][0], b[2][0], t), lerp(a[2][1], b[2][1], t), lerp(a[2][2], b[2][2], t));
+        return;
+      }
+    }
+    const l = KEYS[KEYS.length - 1]; _p.fromArray(l[1]); _t.fromArray(l[2]);
+  }
+
+  /* ---------- trajeto da pizza no forno ---------- */
+  const PATH = [[3.10, 0, 0, 0], [3.30, 0, 2.3, -1.6], [3.45, 0, 2.14, -5.4], [3.52, 0, 2.14, -8.6], [3.70, 0, 2.14, -8.6], [3.82, 0, 2.14, -4.4], [3.95, 0, 2.25, -2.4]];
+  function pizzaPos(S, out) {
+    if (S >= 4.5) { out.set(0, 0, 0); return; }
+    if (S <= PATH[0][0]) { out.set(0, 0, 0); return; }
+    for (let i = 0; i < PATH.length - 1; i++) {
+      const a = PATH[i], b = PATH[i + 1];
+      if (S <= b[0]) { const t = ease(clamp((S - a[0]) / (b[0] - a[0]))); out.set(lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(a[3], b[3], t)); return; }
+    }
+    const l = PATH[PATH.length - 1]; out.set(l[1], l[2], l[3]);
+  }
+
+  /* ---------- estado da cena para um S ---------- */
+  const hoursEl = document.getElementById('hours');
+  const mesaEl = document.getElementById('mesa');
+  const tmpC = new THREE.Color();
+  let lastHours = -1;
+  function apply(S, time, still) {
+    const atTable = S >= 4.5;
+    const morph = atTable ? 1 : sm(2.05, 2.42, S);
+    const bake = atTable ? 1 : sm(3.52, 3.68, S);
+    const dark = atTable ? 0 : sm(3.06, 3.22, S);
+
+    // massa
+    let k = morph >= 1 ? 1 : (S < 2.05 ? 1 + 0.1 * sm(0.15, 1.0, S) + 0.14 * sm(1.05, 1.8, S) : lerp(1.24, 1, morph));
+    if (!still && morph < 1) k *= 1 + 0.008 * Math.sin(time * 1.6);
+    dough.scale.setScalar(k);
+    dough.morphTargetInfluences[0] = morph; charMesh.morphTargetInfluences[0] = morph;
+    charMesh.scale.copy(dough.scale);
+    M.dough.color.copy(RAW.dough).lerp(BAKED.dough, bake);
+    M.char.opacity = 0.9 * bake; charMesh.visible = bake > 0.01;
+    doughBlob.scale.setScalar(lerp(0.75, 1.65, morph));
+
+    // molho
+    const sa = sm(2.36, 2.56, S) || (atTable ? 1 : 0);
+    sauce.visible = sa > 0.001; sauce.scale.setScalar(Math.max(sa, 0.001)); sauce.rotation.y = (1 - sa) * 1.4;
+    M.sauce.color.copy(RAW.sauce).lerp(BAKED.sauce, bake);
+
+    // muçarela
+    M.cheese.color.copy(RAW.cheese).lerp(BAKED.cheese, bake);
+    cheeses.forEach((m, i) => {
+      const u = m.userData, t = atTable ? 1 : sm(2.5 + i * .045, 2.64 + i * .045, S);
+      m.visible = t > 0.001;
+      const sx = u.s * lerp(1, 1.32, bake), sy = u.s * .38 * lerp(1, .62, bake);
+      m.scale.set(sx * lerp(.6, 1, t), sy * lerp(.6, 1, t), sx * lerp(.6, 1, t));
+      m.position.set(u.x, 0.11 + sy * .3 + (1 - t) * 2.6, u.z);
+      m.rotation.set(u.spin[0] * (1 - t) * 1.5, u.spin[1] * (1 - t) * 2 + i, u.spin[2] * (1 - t) * 1.5);
+    });
+
+    // manjericão: da tábua para a pizza, em arco
+    M.basil.color.copy(RAW.basil).lerp(BAKED.basil, bake);
+    leaves.forEach((m, i) => {
+      const b = BASIL[i], t = atTable ? 1 : sm(2.8 + i * .05, 2.94 + i * .05, S);
+      const fromY = 0.012, toY = 0.26;
+      m.position.set(lerp(b.from[0], b.to[0], t), lerp(fromY, toY, t) + Math.sin(Math.PI * t) * 1.1, lerp(b.from[1], b.to[1], t));
+      m.rotation.set(Math.sin(Math.PI * t) * .6, lerp(b.from[2], b.to[2], t), 0);
+      const onPizza = t > .5;
+      if (!atTable && S >= 3.1 && !onPizza) m.visible = false; else m.visible = true;
+    });
+
+    // pá
+    const pe = atTable ? 0 : sm(3.04, 3.14, S);
+    peel.visible = pe > 0.001; peel.scale.set(pe || 0.001, 1, pe || 0.001);
+
+    // posição da pizza
+    pizzaPos(S, pizza.position);
+    pizza.rotation.y = atTable ? 0.3 : 0;
+
+    // bancada, farinha, mostrador
+    prep.visible = !atTable;
+    const pk = 1 - sm(3.0, 3.13, S); props.forEach(o => { o.visible = pk > 0.001; o.scale.setScalar((o.userData.s0 || (o.userData.s0 = o.scale.x)) * Math.max(pk, 0.001)); });
+    M.flour.opacity = 1 - sm(2.0, 2.3, S); flour.visible = M.flour.opacity > 0.01;
+    const ringP = S < 1 ? 0.06 * sm(0.55, 0.95, S) : 0.06 + (0.6667 - 0.06) * sm(1.05, 1.75, S);
+    const ringO = sm(0.55, 0.95, S) * (1 - sm(2.0, 2.2, S));
+    ringMat.uniforms.uP.value = ringP; ringMat.uniforms.uO.value = ringO; ring.visible = ringO > 0.005;
+    tickMat.opacity = ringO * .8; ticks.visible = ring.visible;
+    const ha = ringP * Math.PI * 2; head.position.set(Math.sin(ha) * 1.55, 0.03, -Math.cos(ha) * 1.55); head.material.opacity = ringO; head.visible = ring.visible;
+    const hours = Math.round(ringP * 72);
+    if (hoursEl && hours !== lastHours && S > 0.9 && S < 2.3) { lastHours = hours; hoursEl.innerHTML = hours + '<small>h</small>'; }
+
+    // forno
+    const ov = sm(2.98, 3.16, S);
+    oven.visible = !atTable && ov > 0.001; ovenBlob.visible = oven.visible && !SHADOWS;
+    oven.scale.setScalar(Math.max(ov, 0.001));
+    const glow = sm(3.4, 3.55, S) * (1 - 0.45 * sm(3.85, 4.0, S));
+    M.ember.color.setScalar(0.55 + 1.1 * glow);
+    ember.intensity = atTable ? 0 : 55 * glow + 8 * bake * (1 - sm(3.9, 4.0, S));
+
+    // mesa
+    table.visible = atTable; catcher.position.y = atTable ? -0.31 : 0;
+
+    // luz
+    hemi.intensity = lerp(1.25, 0.5, dark);
+    sun.intensity = lerp(2.3, 1.15, dark);
+    sun.color.copy(tmpC.set('#FFE9D2')).lerp(tmpC.set('#FFC08A'), dark);
+
+    // selo da mesa
+    if (mesaEl) mesaEl.style.setProperty('--seal', (atTable ? sm(5.62, 5.84, S) : 0).toFixed(3));
+    return dark;
+  }
+
+  /* ---------- enquadramento (desloca o palco para dar espaço ao texto) ---------- */
+  let W = 0, H = 0;
+  function frameShift(S) {
+    const desk = W >= 900;
+    if (desk) {
+      let sx;
+      if (S < 1) sx = lerp(0.07, 0.15, sm(0.8, 1.0, S));
+      else if (S < 3) sx = 0.15;
+      else if (S < 4.5) sx = lerp(0.13, 0.0, sm(3.75, 3.95, S));
+      else sx = lerp(0.14, 0, sm(5.45, 5.75, S));
+      return [sx, 0];
+    }
+    let sy;
+    if (S < 1) sy = lerp(0.2, -0.12, sm(0.75, 1.0, S));
+    else if (S < 4.5) sy = lerp(-0.12, -0.04, sm(3.8, 3.95, S));
+    else sy = lerp(-0.12, 0.02, sm(5.45, 5.75, S));
+    return [0, sy];
+  }
+  function resize(force) {
+    const w = innerWidth, h = Math.max(innerHeight, document.documentElement.clientHeight);
+    if (!force && w === W && Math.abs(h - H) < 120) return;
+    W = w; H = h;
+    renderer.setSize(W, H, false);
+    camera.aspect = W / H;
+    camera.fov = camera.aspect < 0.8 ? 47 : camera.aspect < 1.2 ? 40 : 34;
+    camera.updateProjectionMatrix();
+  }
+  resize(true);
+  addEventListener('resize', () => resize(false));
+
+  /* ---------- scroll → linha do tempo ---------- */
+  const secs = [...document.querySelectorAll('[data-gl]')].map(el => ({ el, idx: +el.dataset.gl, p: 0, v: 0, r: null }));
+  const fornoSec = secs.find(s => s.idx === 3);
+  const flashEl = document.getElementById('flash');
+  const backdrop = document.getElementById('backdrop');
+  const cream = C('#F6EBDD'), espresso = C('#281B16'), bgC = new THREE.Color();
+  let sTarget = 0, vis = 1, flash = 0;
+  function measure() {
+    const vh = innerHeight, c = vh * .5; let best = null, bestScore = -1; vis = 0;
+    for (const s of secs) {
+      const r = s.el.getBoundingClientRect(); s.r = r;
+      s.p = clamp(-r.top / Math.max(1, r.height - vh));
+      s.v = clamp(Math.min(vh - r.top, r.bottom) / (vh * .45));
+      const score = (r.top <= c && r.bottom > c) ? 2 : s.v;
+      if (score > bestScore) { bestScore = score; best = s; }
+      vis = Math.max(vis, s.v);
+    }
+    sTarget = best.idx + best.p;
+    const x = (c - fornoSec.r.bottom) / vh;
+    flash = RM.matches ? 0 : Math.exp(-Math.pow(x / 0.16, 2)) * 0.92;
+  }
+  function keyframeFor(S) {
+    const i = Math.floor(S), p = S - i;
+    if (i <= 0) return 0.6;
+    if (i === 1) return 1.8;
+    if (i === 2) return p < .5 ? 2.3 : 2.98;
+    if (i === 3) return p < .55 ? 3.6 : 3.99;
+    if (i >= 5) return p < .6 ? 5.35 : 5.95;
+    return S;
+  }
+
+  let sCur = 0, first = true, last = performance.now(), frameN = 0;
+  const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3();
+  function loop(now) {
+    requestAnimationFrame(loop);
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (document.hidden) return;
+    measure();
+    const still = RM.matches;
+    const tgt = still ? keyframeFor(sTarget) : sTarget;
+    if (first || still || vis < 0.02 || Math.abs(tgt - sCur) > 1.2) sCur = tgt;
+    else sCur += (tgt - sCur) * (1 - Math.exp(-dt * 7));
+    canvas.style.opacity = vis.toFixed(3);
+    flashEl.style.opacity = flash.toFixed(3);
+    if (vis < 0.01) { bgC.copy(cream); backdrop.style.background = '#' + bgC.getHexString(); document.body.classList.remove('on-dark'); first = true; return; }
+    if (LOW && (frameN++ & 1)) return;
+
+    const dark = apply(sCur, now / 1000, still) * (fornoSec.v);
+    bgC.copy(cream).lerp(espresso, dark);
+    backdrop.style.background = '#' + bgC.getHexString();
+    document.body.classList.toggle('on-dark', dark > .5);
+
+    camAt(sCur);
+    const [sx, sy] = frameShift(sCur);
+    if (camera.aspect < 0.8) { _p.sub(_t).multiplyScalar(1.12).add(_t); }
+    if (first || still) { camPos.copy(_p); camTgt.copy(_t); }
+    else { const k = 1 - Math.exp(-dt * 6); camPos.lerp(_p, k); camTgt.lerp(_t, k); }
+    camera.position.copy(camPos); camera.lookAt(camTgt);
+    camera.setViewOffset(W, H, -sx * W, -sy * H, W, H);
+    first = false;
+    renderer.render(scene, camera);
+  }
+
+  // compila tudo antes de mostrar, para não engasgar no primeiro scroll
+  apply(0, 0, true);
+  renderer.compile(scene, camera);
+  root.classList.add('gl-on'); root.classList.remove('gl-pending');
+  requestAnimationFrame(loop);
+
+  addEventListener('pagehide', () => {
+    renderer.dispose(); envRT.dispose();
+    scene.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+    Object.values(M).forEach(m => { if (m.map) m.map.dispose(); if (m.alphaMap) m.alphaMap.dispose(); m.dispose(); });
+  });
+}
+</script>
+</body>
+</html>
