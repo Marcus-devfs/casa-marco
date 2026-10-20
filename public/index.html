@@ -357,6 +357,7 @@ html.no-gl #mesa .seal { transform: translateY(-50%); }
 .card-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--linha); }
 .price { font-weight: 600; font-variant-numeric: tabular-nums; }
 .price.pending { font-weight: 500; color: var(--tinta-suave); font-size: .9rem; }
+.price .size { font-weight: 500; color: var(--tinta-suave); font-size: .85em; }
 .avail { font-size: .8rem; display: inline-flex; align-items: center; gap: 6px; color: var(--manjericao); white-space: nowrap; }
 .avail::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .avail.off { color: var(--tinta-suave); }
@@ -916,6 +917,7 @@ function renderBatch() {
   var rows = [
     ['Data', esc(B.date) || 'A definir'],
     ['Tamanho da fornada', 'Cerca de ' + B.capacity + ' pizzas'],
+    ['Tamanho da pizza', B.sizeCm ? B.sizeCm + ' cm' : 'A confirmar'],
     ['Vagas', B.open === false ? 'Fornada fechada' : B.reserved == null ? 'Confirmadas pelo Marcus' : (remaining ? remaining + ' disponíveis' : 'Esgotada')],
     ['Entrega', 'No condomínio']
   ];
@@ -957,7 +959,7 @@ document.getElementById('cards').innerHTML = CONFIG.flavors.map(function (f, i) 
     '<div class="card-art">' + art + '</div>' +
     '<div class="card-body">' + (f.special ? '<p class="tag">Receita desta fornada</p>' : '') +
     '<h3>' + esc(f.name) + '</h3><p class="desc">' + esc(f.desc) + '</p>' +
-    '<div class="card-meta"><span class="price' + (f.price == null ? ' pending' : '') + '">' + priceLabel(f) + '</span>' +
+    '<div class="card-meta"><span class="price' + (f.price == null ? ' pending' : '') + '">' + priceLabel(f) + (CONFIG.batch.sizeCm ? ' <span class="size">· ' + CONFIG.batch.sizeCm + ' cm</span>' : '') + '</span>' +
     '<span class="avail' + (f.available ? '' : ' off') + '">' + (f.available ? 'Disponível' : 'Esgotado') + '</span></div>' +
     '<div data-ctrl="' + esc(f.id) + '"></div></div></article>';
 }).join('');
@@ -1035,8 +1037,9 @@ function aplicarCardapio(d) {
   CONFIG.batch = f ? {
     id: f.id, date: f.rotulo || null, slots: Array.isArray(f.horarios) ? f.horarios : [],
     capacity: Number(f.capacidade) || CONFIG.batch.capacity,
-    reserved: f.reservadas != null ? Number(f.reservadas) : null, open: f.aberta !== false
-  } : { date: null, slots: [], capacity: CONFIG.batch.capacity, reserved: null, open: true };
+    reserved: f.reservadas != null ? Number(f.reservadas) : null, open: f.aberta !== false,
+    sizeCm: Number(f.tamanhoCm) || null
+  } : { date: null, slots: [], capacity: CONFIG.batch.capacity, reserved: null, open: true, sizeCm: null };
 }
 function carregarCardapio() {
   var url = CONFIG.api && CONFIG.api.cardapioUrl;
